@@ -37,7 +37,7 @@ class ChargingEnv(gym.Env):
         conditions = self.get_obs()
         results = {'timestep': self.timestep, 'price': self.grid_price, 'maximum_demand': self.maximum_demand, 'new_evs': self.new_evs, 'actions': actions, 'res_charging_demand': self.res_charging_demand, 'res_parking_time': self.res_parking_time, 'leave': self.leave, 'reward': -reward, 'reward_1': reward_1, 'reward_4': reward_4, 'cost_2': cost_2, 'cont_3': cost_3, 'grid': grid}
         write_to_csv(results)
-        if self.timestep == 96: # change this according to the number of timesteps
+        if (self.timestep == 500) or (np.count_nonzero(self.chargers == 0) == 1): # (0 not in self.chargers): #96 3072 # change this according to the number of timesteps
             self.done = True    
             self.timestep = 0
         self.info = {}
@@ -58,9 +58,12 @@ class ChargingEnv(gym.Env):
         self.res_parking_time = np.zeros(self.number_of_chargers)
         self.res_charging_demand = np.zeros(self.number_of_chargers)
         self.done = False
-        self.df_station = pd.read_csv('charging_station\data\EVCS-day.csv')
-        self.df_price = pd.read_csv('charging_station\data\Price-day.csv')
-        self.df_ev_forecast = pd.read_csv('charging_station\data\EV_demand_forecast-day.csv')
+        #self.df_station = pd.read_csv('charging_station\data\EVCS-day.csv')
+        #self.df_price = pd.read_csv('charging_station\data\Price-day.csv')
+        #self.df_ev_forecast = pd.read_csv('charging_station\data\EV_demand_forecast-day.csv')
+        self.df_station = pd.read_csv('charging_station\data\EVCS-month.csv')
+        self.df_price = pd.read_csv('charging_station\data\Price-month.csv')
+        self.df_ev_forecast = pd.read_csv('charging_station\data\EV_demand_forecast-month.csv')
         self.info = {}
         #print('env - reset - obs', self.get_obs(), 'info', self.info)
         #print()
