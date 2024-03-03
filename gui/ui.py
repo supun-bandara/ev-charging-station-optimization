@@ -104,11 +104,22 @@ class ChargingStation:
         self.add_button = ttk.Button(self.frame, text="Add Vehicle", command=self.open_form,style="Custom.TButton")
         self.add_button.grid(row=3, column=0,sticky=tk.W)
 
+        # Create a button to run the function every minute
+        self.run_every_minute_button = ttk.Button(self.frame, text="Run Every Minute", command=self.run_every_minute,
+                                                  style="Custom.TButton")
+        self.run_every_minute_button.grid(row=2, column=1, pady=20, sticky=tk.W)
+
         #initialize_chargers
         for i in range(10):
             self.create_empty_slot(i) 
                
         self.initialize_chargers()
+
+    def run_every_minute(self):
+        # Call time_pass
+        self.time_pass()
+        # Schedule the function to run again after 1 minute
+        self.root.after(60000, self.run_every_minute)
             
     def empty_slots_create(self,charger_id):
         self.index[charger_id]=0
