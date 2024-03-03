@@ -1,3 +1,5 @@
+# not important right now
+
 import tkinter as tk
 from tkinter import ttk, simpledialog, messagebox
 

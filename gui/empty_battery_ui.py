@@ -1,3 +1,5 @@
+# to show empty charger states in GUI
+
 import tkinter as tk
 from tkinter import ttk, simpledialog, messagebox
 
