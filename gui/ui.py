@@ -331,6 +331,23 @@ class ChargingStationForm(tk.Toplevel):
         # Create a button to submit the form
         self.Battery_Capacity_button=ttk.Button(self, text="Add Vehicle", command=self.add_vehicle,style="Custom.TButton")
         self.Battery_Capacity_button.grid(row=7, column=0,pady=10, padx=50)
+
+        # Create a button to choose sample data
+        self.sample_data_button = ttk.Button(self, text="Choose Sample Data", command=self.choose_sample_data)
+        self.sample_data_button.grid(row=8, column=0, columnspan=2, pady=10)
+
+    def choose_sample_data(self):
+        # Here you can implement logic to choose which sample data to fill in the form
+        # For demonstration purposes, let's say we're choosing the first sample data
+        self.charger_type.current(0)  # Charger Type: AC
+        self.soc_entry.delete(0, tk.END)
+        self.soc_entry.insert(0, "10")  # Current SOC: 10
+        self.rsoc_entry.delete(0, tk.END)
+        self.rsoc_entry.insert(0, "90")  # Require SOC: 90
+        self.time_entry.delete(0, tk.END)
+        self.time_entry.insert(0, "12:00")  # Departure Time: 12:00
+        self.capacity_entry.delete(0, tk.END)
+        self.capacity_entry.insert(0, "100")  # Battery Capacity: 100
         
     def add_vehicle(self):
         try:
