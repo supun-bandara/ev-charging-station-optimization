@@ -24,7 +24,7 @@ class chargingStation_backend():
         return charging_price
 
     def next_time(self, current_time, array):
-        print("backend - next_time - current_time: ", current_time, " array: ", array)
+        #print("backend - next_time - current_time: ", current_time, " array: ", array)
         self.chargers = np.zeros(self.number_of_chargers)
         self.res_parking_time = np.zeros(self.number_of_chargers)
         self.res_charging_demand = np.zeros(self.number_of_chargers)

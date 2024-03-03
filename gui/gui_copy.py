@@ -179,7 +179,7 @@ class ChargingStation:
         self.vehicle_batteries = []  # Store added vehicle batteries
         # Create a frame for the charging station price and power
         self.initialize=0
-        print(self.initialize)
+        #print(self.initialize)
         self.time_diff=15
         self.Grid_price=0
         self.Chargers_prices=0
@@ -267,7 +267,7 @@ class ChargingStation:
                
     def initialize_chargers(self):
         self.initialize=1
-        print(self.initialize)
+        #print(self.initialize)
         return self.initialize
               
     def create_empty_slot(self,charger_id):
@@ -322,9 +322,9 @@ class ChargingStation:
         self.change_time()
         #print("current_time",self.time)
         global chargers
-        print("send array")
+        #print("send array")
         for i in  range(10):
-           print(i,chargers[i]) 
+           #print(i,chargers[i]) 
            
         ####################################
         backend_receice_array = chargingStation_backend.next_time(chargingStation_backend(),self.time,chargers)
@@ -332,10 +332,10 @@ class ChargingStation:
         chargers=backend_receice_array[:len(backend_receice_array)-2]  #choose the charger details
         ####################################
         self.Grid_price_forecast=backend_receice_array[len(backend_receice_array)-2] #choose the grid price forecasting details
-        print("Grid_price_forecast details",self.Grid_price_forecast)
+        #print("Grid_price_forecast details",self.Grid_price_forecast)
         ####################################
         self.ev_forecast= backend_receice_array[len(backend_receice_array)-1]  #choose the ev forecasting details
-        print("EV forcasting details",self.ev_forecast)
+        #print("EV forcasting details",self.ev_forecast)
         
         
         
@@ -387,12 +387,12 @@ class ChargingStation:
         #update the maximim power        
         # self.total_profit=backend_receice_array[]
         self.Grid_power_label.config(text=f"Grid Max Power :${self.max_power}")         
-        print("receive array")
+        #print("receive array")
         for i in range(len(chargers)): 
-            print(chargers[i])
+            #print(chargers[i])
             #ChargingStation.add_vehicle_battery(self,chargers[i])
             if chargers[i][2]!=0:
-                print() #choose the vehicle data
+                #print() #choose the vehicle data
                 self.add_vehicle_battery(chargers[i])
             else:    
                 self.empty_slots_create(chargers[i][0])
@@ -597,7 +597,7 @@ class emptyBatteryUI:
        
     def dc_charger_icon(self):
 
-            print("succes")
+            #print("succes")
                 
             self.charger_icon_path = "gui\icons\DC-charger.png"  # Replace with the actual path to your charger icon
             self.charger_icon = tk.PhotoImage(file=self.charger_icon_path)

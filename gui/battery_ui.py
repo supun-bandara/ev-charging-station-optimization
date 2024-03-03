@@ -7,60 +7,34 @@ class BatteryUI:
     
     def __init__(self, root, style, charger_id, row, col,current_soc,required_soc,arrival_time,departure_time,battery_capacity,charging_power,charging_price):
         self.root = root
-
         # Create a frame for each battery
         style.configure("battery.TFrame", background="#CBC3E3")
-        
         self.frame = ttk.Frame(root, padding="10", style="battery.TFrame")
         self.frame.grid(row=row, column=col, padx=5, pady=5)
-        
-        #battery id
+
         self.charger_id=charger_id
-               
-        # Set initial charge level (between 0 and 100)//map to 100 with filling the rectangle
-        self.charge_level = (current_soc / 100) * 150
-
-        #required SOC
+        self.charge_level = (current_soc / 100) * 150 # Set initial charge level (between 0 and 100)//map to 100 with filling the rectangle
         self.required_soc = required_soc
-        
-        #arrival time
         self.arrival_time = arrival_time
-        
-        #depature time
         self. departure_time = departure_time
-        
-        # Set battery capacity
         self.battery_capacity = battery_capacity
-        
-        # Set charging power 
         self.chariging_power = charging_power
-
-        # Set charging price
         self.charging_price = charging_price
-
-        # Change the background color of the root window
-        self.root.configure(background='#CBC3E3')
-
+        self.root.configure(background='#CBC3E3') # Change the background color of the root window
         font=("Hack Regular", 10)
-        # Draw the battery outline
-        self.canvas = tk.Canvas(self.frame, width=200, height=100, bg="#CBC3E3", highlightthickness=2)
+        self.canvas = tk.Canvas(self.frame, width=200, height=100, bg="#CBC3E3", highlightthickness=2) # Draw the battery outline
         self.canvas.pack()
-        
-        # Draw the battery border
-        self.canvas.create_rectangle(20, 20, 180, 80, outline="white", width=5)
+
+        self.canvas.create_rectangle(20, 20, 180, 80, outline="white", width=5) # Draw the battery border
         self.canvas.create_rectangle(180, 35, 195, 65, outline="white", width=5)
 
-        # Draw the battery fill based on the initial charge level
-        self.battery_fill = self.canvas.create_rectangle(25, 25, 25 + self.charge_level, 75, outline="", fill="green")
+        self.battery_fill = self.canvas.create_rectangle(25, 25, 25 + self.charge_level, 75, outline="", fill="green") # Draw the battery fill based on the initial charge level
 
-        #Battery id
-        self.label_charger_id = ttk.Label(self.frame, text=f"Charger id: {self.charger_id}", background="#CBC3E3",
-                                      foreground="black", font=font)
+        self.label_charger_id = ttk.Label(self.frame, text=f"Charger id: {self.charger_id}", background="#CBC3E3", foreground="black", font=font) #Battery id
         self.label_charger_id.pack()
         
         # Create a label to display the charge level
-        self.label_charge = ttk.Label(self.frame, text=f"Charge Level: {current_soc}%", background="#CBC3E3",
-                                      foreground="black", font=font)
+        self.label_charge = ttk.Label(self.frame, text=f"Charge Level: {current_soc}%", background="#CBC3E3", foreground="black", font=font)
         self.label_charge.pack()
         
         #Required charge level
@@ -72,8 +46,6 @@ class BatteryUI:
         self.label_charge = ttk.Label(self.frame, text=f"Start_Charge Level: {current_soc}%", background="#CBC3E3",
                                       foreground="black", font=font)
         self.label_charge.pack()
-        
-        
 
         # Create a label to display the arrival_time
         self.label_arrival_time = ttk.Label(self.frame, text=f"Arrival time: {self.arrival_time}", background="#CBC3E3",

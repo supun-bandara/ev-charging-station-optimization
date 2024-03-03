@@ -33,17 +33,17 @@ def remove_EV(self):
     return
 
 '''def process(self):
-    print("process - res_parking_time: ", self.res_parking_time)
+    #print("process - res_parking_time: ", self.res_parking_time)
     self.res_parking_time = self.res_parking_time - 1
-    print("process - res_parking_time: ", self.res_parking_time)
-    print("process - res_charging_demand: ", self.res_charging_demand)
+    #print("process - res_parking_time: ", self.res_parking_time)
+    #print("process - res_charging_demand: ", self.res_charging_demand)
     self.res_charging_demand = self.res_charging_demand - self.charging_power
-    print("process - res_charging_demand: ", self.res_charging_demand)
-    print("process - current_soc: ", self.current_soc)
+    #print("process - res_charging_demand: ", self.res_charging_demand)
+    #print("process - current_soc: ", self.current_soc)
     np.seterr(divide='ignore', invalid='ignore')
     self.current_soc = np.where(self.battery_capacity != 0, ( self.end_soc - (np.divide(self.res_charging_demand, self.battery_capacity))*100 ), 0)
     np.seterr(divide='warn', invalid='warn')
-    print("process - current_soc: ", self.current_soc)
+    #print("process - current_soc: ", self.current_soc)
     return'''
 
 def process(self):
@@ -70,7 +70,7 @@ def convert_back(self, current_time):
     ev_demand_forecast_rounded = [round(value, 3) for value in ev_demand_forecast_result]
     lst.append(ev_demand_forecast_rounded)
 
-    print("convert_back - lst: ", lst)
+    #print("convert_back - lst: ", lst)
     return lst
 
 # [id,start_soc, current_soc, end_soc, arrival_time, departure_time, battery_capacity, charging_power, unit_price, grid_price, ev_demand, maximum_grid_demand]

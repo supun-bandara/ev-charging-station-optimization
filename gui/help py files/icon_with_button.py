@@ -3,7 +3,7 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 
 def button_clicked():
-    print("Button Clicked")
+    #print("Button Clicked")
 
 # Create Tkinter window
 root = tk.Tk()

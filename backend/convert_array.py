@@ -35,24 +35,24 @@ def time_diff(t1,t2):
         elif t1=='00:00' or  t2=='00:00' :     
             return 0
         else:
-            print(t1)
-            print(t2)
+            #print(t1)
+            #print(t2)
             t1_split = t1.split(":")
             t2_split = t2.split(":")
             # t1_split_hour_and_minutes
             hour = int(t1_split[0])
             minute = int(t1_split[1])
             time1_min =hour*60+minute
-            print("time1",time1_min)
+            #print("time1",time1_min)
             
             # t2_split_hour_and_minutes
             hour = int(t2_split[0])
             minute = int(t2_split[1])
             time2_min =hour*60+minute
-            print("time2",time2_min)
+            #print("time2",time2_min)
             
             _15_min_slots=int((time2_min-time1_min)/15)
                 
-            print("15 min slots",_15_min_slots)
+            #print("15 min slots",_15_min_slots)
             return _15_min_slots 
 # [charger id, current soc, required soc, arrival time, departure time, battery capacity]

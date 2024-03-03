@@ -32,7 +32,7 @@ class emptyBatteryUI:
        
     def dc_charger_icon(self):
 
-            print("succes")
+            #print("succes")
                 
             self.charger_icon_path = "gui\icons\DC-charger.png"  # Replace with the actual path to your charger icon
             self.charger_icon = tk.PhotoImage(file=self.charger_icon_path)
