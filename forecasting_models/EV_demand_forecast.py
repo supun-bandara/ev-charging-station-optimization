@@ -1,3 +1,6 @@
+# ev forecasting model
+# give inputs in hours
+
 import pandas as pd
 import pickle
 from datetime import datetime, timedelta

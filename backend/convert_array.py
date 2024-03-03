@@ -4,7 +4,7 @@ import pandas as pd
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
 
-def convert_array(self, current_time, array):
+def convert_array(self, current_time, array): # convert data from gui to backend
     for sub_array in array:
         charger_id = sub_array[0]
         current_soc = sub_array[1]

@@ -1,3 +1,5 @@
+# sample_list_from_gui = [id,start_soc, current_soc, end_soc, arrival_time, departure_time, battery_capacity, charging_power, unit_price, grid_price, ev_demand, maximum_grid_demand]
+
 import sys
 import os
 import pandas as pd
@@ -46,6 +48,8 @@ def remove_EV(self):
     #print("process - current_soc: ", self.current_soc)
     return'''
 
+
+################ calculate residual parking time, residual charging demand and update current state of charge ################
 def process(self):
     self.res_parking_time = self.res_parking_time - 1
     self.res_charging_demand = np.clip(self.res_charging_demand - self.charging_power, 0, None)
@@ -55,6 +59,7 @@ def process(self):
     np.seterr(divide='warn', invalid='warn')
     return
 
+################ convert data from backend to gui ################
 def convert_back(self, current_time):
     lst = []
     for i in range(len(self.chargers)):
@@ -73,4 +78,3 @@ def convert_back(self, current_time):
     #print("convert_back - lst: ", lst)
     return lst
 
-# [id,start_soc, current_soc, end_soc, arrival_time, departure_time, battery_capacity, charging_power, unit_price, grid_price, ev_demand, maximum_grid_demand]

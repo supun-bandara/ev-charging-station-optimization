@@ -1,3 +1,5 @@
+# write outputs to csv
+
 import csv
 
 def write_to_csv(data):

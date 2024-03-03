@@ -1,3 +1,8 @@
+# total backend part
+# this code can be used without gui part
+
+# sample_list_from_gui = [id,start_soc, current_soc, end_soc, arrival_time, departure_time, battery_capacity, charging_power, unit_price, grid_price, ev_demand, maximum_grid_demand]
+
 import sys
 import os
 import pandas as pd

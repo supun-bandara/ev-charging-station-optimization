@@ -1,3 +1,5 @@
+# read data to train the drl model in each timestep
+
 import pandas as pd
 
 def get_data(self):

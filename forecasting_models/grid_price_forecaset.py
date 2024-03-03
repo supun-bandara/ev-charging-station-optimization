@@ -1,3 +1,7 @@
+# grid price forecast
+# give inputs in minutes
+# to be replaced with the API
+
 import pandas as pd
 from datetime import datetime, timedelta
 import pickle

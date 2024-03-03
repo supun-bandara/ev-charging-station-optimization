@@ -1,3 +1,6 @@
+# This file contains the environment class for the charging station environment
+# can be used separately
+
 import sys
 import os
 import pandas as pd
