@@ -31,4 +31,4 @@ def predict_price(self, charger_id, current_time, res_parking_time, res_charging
     charging_price = grid_price_constant + grid_price_forecast_constant + ev_demand_forecast_constant + ev_constant + installation_cost + service_fee # normalize this and add grid price forecast
     #print("predict_price - charging_price: ", charging_price, "grid_price_constant: ", grid_price_constant, "grid_price_forecast_constant: ", grid_price_forecast_constant, "ev_demand_forecast_constant: ", ev_demand_forecast_constant, "ev_constant: ", ev_constant, "installation_cost: ", installation_cost, "service_fee: ", service_fee)
     charging_price = charging_price/100
-    return round((charging_price * res_charging_demand), 3)
+    return round((charging_price), 3)
