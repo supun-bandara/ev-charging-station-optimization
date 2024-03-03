@@ -36,7 +36,7 @@ class ChargingStation:
         self.vehicle_batteries = []  # Store added vehicle batteries
         # Create a frame for the charging station price and power
         self.initialize=0
-        print(self.initialize)
+        #print(self.initialize)
         self.time_diff=15
         self.Grid_price=0
         self.Chargers_prices=0
@@ -45,6 +45,8 @@ class ChargingStation:
         self.max_power=0
         self.ev_forcast=0
         self.empty_slots=[0]*10
+        #self.chargers = [[0] * 8 for _ in range(10)]
+        self.index = [0 for i in range(10)]
 
         self.frame = ttk.Frame(root, padding="10", style="Custom.TFrame")
         self.frame.grid(row=0, column=0, columnspan=10, sticky=tk.W)
@@ -109,11 +111,12 @@ class ChargingStation:
         self.initialize_chargers()
             
     def empty_slots_create(self,charger_id):
+        self.index[charger_id]=0
         self.create_empty_slot(charger_id)  
         
     def initialize_chargers(self):
         self.initialize=1
-        print(self.initialize)
+        #print(self.initialize)
         return self.initialize
               
     def create_empty_slot(self,charger_id):
@@ -165,9 +168,9 @@ class ChargingStation:
         self.change_time()
         #print("current_time",self.time)
         global chargers
-        print("send array")
-        for i in  range(10):
-           print(i,chargers[i]) 
+        #print("send array")
+        #for i in  range(10):
+           #print(i,chargers[i]) 
            
         ####################################
         backend_receice_array = chargingStation_backend.next_time(chargingStation_backend(),self.time,chargers)
@@ -175,15 +178,15 @@ class ChargingStation:
         chargers=backend_receice_array[:len(backend_receice_array)-2]  #choose the charger details
         ####################################
         self.Grid_price_forecast=backend_receice_array[len(backend_receice_array)-2] #choose the grid price forecasting details
-        print("Grid_price_forecast details",self.Grid_price_forecast)
+        #print("Grid_price_forecast details",self.Grid_price_forecast)
         ####################################
         self.ev_forecast= backend_receice_array[len(backend_receice_array)-1]  #choose the ev forecasting details
-        print("EV forcasting details",self.ev_forecast)
+        #print("EV forcasting details",self.ev_forecast)
 
         ###############################
         #update the grid price 
         self.Grid_price=self.Grid_price_forecast[0]  #select the first one  
-  
+    
         self.grid_price_label.config(text=f"Grid Unit Price:¢{self.Grid_price}")
 
         ################################
@@ -220,19 +223,16 @@ class ChargingStation:
         #update the maximim power        
         # self.total_profit=backend_receice_array[]
         self.Grid_power_label.config(text=f"Grid Max Power :${self.max_power}")         
-        print("receive array")
+        #print("receive array")
         for i in range(len(chargers)): 
-            print(chargers[i])
+            #print(chargers[i])
             #ChargingStation.add_vehicle_battery(self,chargers[i])
             if chargers[i][2]!=0:
-                print() #choose the vehicle data
+                #print() #choose the vehicle data
                 self.add_vehicle_battery(chargers[i])
             else:    
                 self.empty_slots_create(chargers[i][0])
-                
-    def remove_battery(self,charger_id):
-        emptyBatteryUI(self.root, self.style, charger_id, 3,charger_id, 0, 0, 0,0, 0,0,0)
-    
+
     def change_time(self,):
         # Extract only the numeric part of the time string
         current_time = self.time_label["text"]
@@ -281,24 +281,19 @@ class ChargingStationForm(tk.Toplevel):
         self.frame.grid(row=0, column=0, columnspan=10)
         font=("Hack Regular", 10)
 
-       # DC Charger
-        self.DC_label =ttk.Label(self, text="DC Charger:",style="bag.TLabel",font=font)
-        self.DC_label.grid(row=0, column=0,pady=10, padx=25)
-        self.DC_charger = ttk.Checkbutton(self,onvalue=True,style="bag.TCheckbutton")
-        self.DC_charger.grid(row=1, column=0, padx=25,ipadx=10)
-        
-        # AC Charger
-        self.AC_label=ttk.Label(self, text="AC Charger:",style="bag.TLabel",font=font)
-        self.AC_label.grid(row=0, column=1,pady=10, padx=10)
-        self.AC_charger = ttk.Checkbutton(self,onvalue=True,style="bag.TCheckbutton")
-        self.AC_charger.grid(row=1, column=1, padx=25)
-        
+       # Charger Type
+        self.charger_type_label = ttk.Label(self, text="Charger Type:", style="bag.TLabel", font=font)
+        self.charger_type_label.grid(row=0, column=0, pady=10, padx=25)
+        self.charger_type = ttk.Combobox(self, values=("AC", "DC"), style="bag.TCombobox")
+        self.charger_type.grid(row=0, column=1, pady=10, padx=25)
+        self.charger_type.current(0)  # Default selection is "AC"
+        '''
         # Create labels and entry widgets for user input
         self.Charger_id_label=ttk.Label(self, text="Charger id:",style="bag.TLabel",font=font)
         self.Charger_id_label.grid(row=2, column=0,pady=10, padx=25)
         self.Charger_id_ = tk.Spinbox(self, from_=0, to=9)
         self.Charger_id_.grid(row=2, column=1,pady=10, padx=25)
-        
+        '''
         self.Current_SOC_label=ttk.Label(self, text="Current SOC :",style="bag.TLabel",font=font)
         self.Current_SOC_label.grid(row=3, column=0,pady=10, padx=25)
         self.soc_entry = tk.Spinbox(self, from_=0, to=100)
@@ -329,7 +324,7 @@ class ChargingStationForm(tk.Toplevel):
     def add_vehicle(self):
         try:
             # Retrieve user input and create a new ChargingStation instance
-            charger_id = int(self.Charger_id_.get())
+            #charger_id = int(self.Charger_id_.get())
             current_soc = float(self.soc_entry.get())
             required_soc=float(self.rsoc_entry.get())
             departure_time = self.time_entry.get()  # Keep it as a string for now
@@ -349,6 +344,27 @@ class ChargingStationForm(tk.Toplevel):
                 raise ValueError("Invalid departure time format. Use hh:mm")
             
             arrival_time=charging_station.time
+
+            charger_type = self.charger_type.get()
+            
+            # Assign charger based on charger type and availability
+            if charger_type == "DC":
+                for idx in range(4):
+                    if self.charging_station.index[idx] == 0:  # Charger is available
+                        charger_id = idx
+                        self.charging_station.index[idx] = 1  # Mark charger as occupied
+                        break
+                else:
+                    raise ValueError("No available DC charger found")
+            else:  # AC charger
+                for idx in range(4, 10):
+                    if self.charging_station.index[idx] == 0:  # Charger is available
+                        charger_id = idx
+                        self.charging_station.index[idx] = 1  # Mark charger as occupied
+                        break
+                else:
+                    raise ValueError("No available AC charger found")
+
             vehicle_data = [charger_id,current_soc,required_soc,arrival_time,departure_time,battery_capacity ]
             charging_price=chargingStation_backend.add_EV(chargingStation_backend(),*vehicle_data)
             
