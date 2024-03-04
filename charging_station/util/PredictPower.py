@@ -19,16 +19,16 @@ def predict_power(self, current_time):
 
         charging_power = self.max_charging_power * 0.8  + grid_price_component
         charging_power = charging_power * self.chargers
-        charging_power = np.random.uniform(0.9, 1, 10) * self.max_charging_power * self.chargers
+        charging_power = self.max_charging_power * self.chargers # np.random.uniform(0.97, 1, 10) * 
         return charging_power
     
     else: # when the maximum available grid demand is exceeded
         dc_count = np.sum(self.chargers[:4])
         if dc_count == 4:
-            first_four = np.random.randint(15, 17, size=4)
+            first_four = np.array([15,15,15,15]) # np.random.randint(15, 17, size=4)
             dc_charging_power = np.concatenate((first_four, np.zeros(6))) * self.chargers
         elif dc_count in [1,2,3]:
-            first_four = np.random.randint(20, 25, size=4)
+            first_four = np.array([25,25,25,25]) # np.random.randint(22, 25, size=4)
             dc_charging_power = np.concatenate((first_four, np.zeros(6))) * self.chargers
 
         ac_max_grid_demand = self.max_grid_demand - np.sum(dc_charging_power)
