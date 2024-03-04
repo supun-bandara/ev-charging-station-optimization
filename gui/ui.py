@@ -9,14 +9,10 @@ from tkinter import ttk, simpledialog, messagebox
 import numpy as np
 
 from backend.backend import chargingStation_backend
-#from gui.charging_station_form import ChargingStationForm
 from gui.configure_model_form import ConfigureModelForm
 from gui.ev_forecast_form import EvForecastForm
 from gui.battery_ui import BatteryUI
 from gui.empty_battery_ui import emptyBatteryUI
-#initialize the chargers
-
-from PIL import Image, ImageTk
 
 chargers=[]
 for i in range(10):
@@ -25,18 +21,14 @@ for i in range(10):
          raw_chargers.append(int(0))
     chargers.append(raw_chargers)    
 
-#print("init charger:",chargers)
-
 class ChargingStation:
     def __init__(self, root, style):
         self.root = root
         self.style = style
         self.empty_slots = []
         self.time = "06:00"
-        self.vehicle_batteries = []  # Store added vehicle batteries
-        # Create a frame for the charging station price and power
+        self.vehicle_batteries = []  
         self.initialize=0
-        #print(self.initialize)
         self.time_diff=15
         self.Grid_price=0
         self.Chargers_prices=0
@@ -45,80 +37,55 @@ class ChargingStation:
         self.max_power=0
         self.ev_forcast=0
         self.empty_slots=[0]*10
-        #self.chargers = [[0] * 8 for _ in range(10)]
         self.index = [0 for i in range(10)]
 
-        self.frame = ttk.Frame(root, padding="10", style="Custom.TFrame")
+        self.frame = ttk.Frame(root, padding="5", style="Custom.TFrame")
         self.frame.grid(row=0, column=0, columnspan=10, sticky=tk.W)
-        self.font=("Hack Bold", 13)
+        self.font=("Hack Bold", 10)
         
-        # Create a label to display the charging station time
-        self.time_label = ttk.Label(self.frame, text=f"Current time : {self.time}", font= self.font,
-                                    style="Custom.TLabel", foreground="red")
-        self.time_label.grid(row=0, column=0, ipadx=10)
+        self.time_label = ttk.Label(self.frame, text=f"Time : {self.time}", font= self.font, style="Custom.TLabel", foreground="red")
+        self.time_label.grid(row=0, column=0, ipadx=5)
 
-        # Create a label to display the grid price
-        self.grid_price_label = ttk.Label(self.frame, text=f"Grid Unit Price: ¢{self.Grid_price}", font= self.font,
-                                     style="Custom.TLabel", foreground="blue")
-        self.grid_price_label.grid(row=0, column=1, ipadx=20)
+        self.grid_price_label = ttk.Label(self.frame, text=f"Grid Price: ¢{self.Grid_price}", font= self.font, style="Custom.TLabel", foreground="blue")
+        self.grid_price_label.grid(row=0, column=1, ipadx=10)
         
-        # Create a label to display the charging station price
-        self.chargers_price_label = ttk.Label(self.frame, text=f"Chargers Income: ${self.Chargers_prices}", font= self.font,
-                                     style="Custom.TLabel", foreground="blue")
-        self.chargers_price_label.grid(row=0, column=2, ipadx=10)
+        self.chargers_price_label = ttk.Label(self.frame, text=f"Chargers Income: ${self.Chargers_prices}", font= self.font, style="Custom.TLabel", foreground="blue")
+        self.chargers_price_label.grid(row=0, column=2, ipadx=5)
         
-        # Create a label to display the charging station price
-        self.profit_label = ttk.Label(self.frame, text=f"Total profit: ${self.total_profit}", font= self.font,
-                                     style="Custom.TLabel", foreground="blue")
-        self.profit_label.grid(row=0, column=3, ipadx=10)
+        self.profit_label = ttk.Label(self.frame, text=f"Total profit: ${self.total_profit}", font= self.font, style="Custom.TLabel", foreground="blue")
+        self.profit_label.grid(row=0, column=3, ipadx=5)
 
-        # Create a label to display the charging station power
-        self.total_power_label = ttk.Label(self.frame, text=f"Total Power: {self.total_power}W", font= self.font,
-                                     style="Custom.TLabel", foreground="green")
-        self.total_power_label.grid(row=0, column=4, ipadx=85)
+        self.total_power_label = ttk.Label(self.frame, text=f"Total Power: {self.total_power}W", font= self.font, style="Custom.TLabel", foreground="green")
+        self.total_power_label.grid(row=0, column=4, ipadx=45)
 
-        # Create a label to display the charging station power
-        self.Grid_power_label = ttk.Label(self.frame, text=f"Grid Max Power: {self.max_power}W", font= self.font,
-                                     style="Custom.TLabel", foreground="red")
-        self.Grid_power_label.grid(row=2, column=4, ipadx=85)
+        self.Grid_power_label = ttk.Label(self.frame, text=f"Grid Max Power: {self.max_power}W", font= self.font, style="Custom.TLabel", foreground="red")
+        self.Grid_power_label.grid(row=2, column=4, ipadx=45)
         
-        # Create a label to display the charging station power
-        self.ev_demand_label = ttk.Label(self.frame, text=f"EV forecast Damand \nnext 1 hour:{self.ev_forcast} ", font= self.font,
-                                     style="Custom.TLabel", foreground="black")
-        self.ev_demand_label.grid(row=0, column=5, ipadx=50)
+        self.ev_demand_label = ttk.Label(self.frame, text=f"EV Demand \nNext Hour: {self.ev_forcast} kW ", font= self.font, style="Custom.TLabel", foreground="black")
+        self.ev_demand_label.grid(row=0, column=5, ipadx=25)
         
-        # Create a button to change the current time
-        self.change_time_button = ttk.Button(self.frame, text="Change Time", command=self.time_pass,
-                                             style="Custom.TButton")
-        self.change_time_button.grid(row=2, column=0,pady=10,sticky=tk.W)
+        self.change_time_button = ttk.Button(self.frame, text="Change Time", command=self.time_pass, style="Custom.TButton")
+        self.change_time_button.grid(row=2, column=0, pady=5, sticky=tk.W)
 
-        # Create a button to for configure the charging station
-        self.configure_button = ttk.Button(self.frame, text="Configure", compound=tk.LEFT, command=self.open_configure_form,style="Custom.TButton")
-        self.configure_button.grid(row=2, column=2, sticky=tk.W,ipadx=10)
+        self.configure_button = ttk.Button(self.frame, text="Configure", command=self.open_configure_form, style="Custom.TButton")
+        self.configure_button.grid(row=2, column=2, sticky=tk.W, ipadx=10)
         
-        # Create a button to for open EV forecasting model
-        self.configure_button = ttk.Button(self.frame, text="EV forecast", command=self.open_EV_form,style="Custom.TButton")
+        self.configure_button = ttk.Button(self.frame, text="EV Forecast", command=self.open_EV_form, style="Custom.TButton")
         self.configure_button.grid(row=2, column=5, sticky=tk.W)
      
-        # Create a button to add the vehicle
-        self.add_button = ttk.Button(self.frame, text="Add Vehicle", command=self.open_form,style="Custom.TButton")
-        self.add_button.grid(row=2, column=3,sticky=tk.W)
+        self.add_button = ttk.Button(self.frame, text="Add Vehicle", command=self.open_form, style="Custom.TButton")
+        self.add_button.grid(row=2, column=3, sticky=tk.W)
 
-        # Create a button to run the function every minute
-        self.run_every_minute_button = ttk.Button(self.frame, text="Run Every Minute", command=self.run_every_minute,
-                                                  style="Custom.TButton")
-        self.run_every_minute_button.grid(row=2, column=1, pady=10, sticky=tk.W)
+        self.run_every_minute_button = ttk.Button(self.frame, text="Run Every Minute", command=self.run_every_minute, style="Custom.TButton")
+        self.run_every_minute_button.grid(row=2, column=1, pady=5, sticky=tk.W)
 
-        #initialize_chargers
         for i in range(10):
             self.create_empty_slot(i) 
                
         self.initialize_chargers()
 
     def run_every_minute(self):
-        # Call time_pass
         self.time_pass()
-        # Schedule the function to run again after 1 minute
         self.root.after(60000, self.run_every_minute)
             
     def empty_slots_create(self,charger_id):
@@ -127,42 +94,31 @@ class ChargingStation:
         
     def initialize_chargers(self):
         self.initialize=1
-        #print(self.initialize)
         return self.initialize
               
     def create_empty_slot(self,charger_id):
-        # Create an empty slot (rectangle) and store its reference
         empty_slot = self.create_empty_battery_ui(charger_id)
         self.empty_slots[charger_id]=empty_slot
 
     def add_vehicle_battery(self, vehicle_data):
-        # Check if there are empty slots available
-            # Get the reference of the first empty slot
-            charger_id=vehicle_data[0]
-            #print(charger_id)
-            if charger_id<5:
-                BatteryUI(self.root, self.style, charger_id, 3,*vehicle_data)
-            elif charger_id>=5:   
-                rest_data=vehicle_data[1:10]
-                BatteryUI(self.root, self.style, charger_id, 4,charger_id-5,*rest_data)
+        charger_id=vehicle_data[0]
+        if charger_id<5:
+            BatteryUI(self.root, self.style, charger_id, 3,*vehicle_data)
+        elif charger_id>=5:   
+            rest_data=vehicle_data[1:10]
+            BatteryUI(self.root, self.style, charger_id, 4,charger_id-5,*rest_data)
         
     def add_empty_charger(self, vehicle_data):
-        # Check if there are empty slots available
-            # Get the reference of the first empty slot
-            charger_id=vehicle_data[0]
-            #print(charger_id)
-            #print(charger_id)                       
-            if charger_id<5:
-                empty_battery_ui=emptyBatteryUI(self.root, self.style, charger_id, 3,*vehicle_data)
-                return empty_battery_ui
-            elif charger_id>=5:   
-                rest_data=vehicle_data[1:]
-                empty_battery_ui=emptyBatteryUI(self.root, self.style, charger_id, 4,charger_id-5,*rest_data) 
-                return empty_battery_ui
+        charger_id=vehicle_data[0]
+        if charger_id<5:
+            empty_battery_ui=emptyBatteryUI(self.root, self.style, charger_id, 3,*vehicle_data)
+            return empty_battery_ui
+        elif charger_id>=5:   
+            rest_data=vehicle_data[1:]
+            empty_battery_ui=emptyBatteryUI(self.root, self.style, charger_id, 4,charger_id-5,*rest_data) 
+            return empty_battery_ui
                           
     def create_empty_battery_ui(self, charger_id,):
-        # Create an empty BatteryUI instance with initial data 
-                                       
         if charger_id<5:
             empty_battery_ui = emptyBatteryUI(self.root, self.style, charger_id, 3,charger_id, 0, 0, 0,0, 0,0,0)
             return empty_battery_ui
@@ -172,74 +128,41 @@ class ChargingStation:
             return empty_battery_ui
   
     def open_form(self):
-        # Open the ChargingStationForm window
         form_window = ChargingStationForm(self.root, self)
 
     def time_pass(self):
         self.change_time()
-        #print("current_time",self.time)
         global chargers
-        #print("send array")
-        #for i in  range(10):
-           #print(i,chargers[i]) 
-           
-        ####################################
         backend_receice_array = chargingStation_backend.next_time(chargingStation_backend(),self.time,chargers)
-        ###################################
-        chargers=backend_receice_array[:len(backend_receice_array)-2]  #choose the charger details
-        ####################################
-        self.Grid_price_forecast=backend_receice_array[len(backend_receice_array)-2] #choose the grid price forecasting details
-        #print("Grid_price_forecast details",self.Grid_price_forecast)
-        ####################################
-        self.ev_forecast= backend_receice_array[len(backend_receice_array)-1]  #choose the ev forecasting details
-        #print("EV forcasting details",self.ev_forecast)
+        chargers = backend_receice_array[:len(backend_receice_array)-2]
+        self.Grid_price_forecast = backend_receice_array[len(backend_receice_array)-2]
+        self.ev_forecast = backend_receice_array[len(backend_receice_array)-1]
 
-        ###############################
-        #update the grid price 
-        self.Grid_price=self.Grid_price_forecast[0]  #select the first one  
-    
-        self.grid_price_label.config(text=f"Grid Unit Price:¢{self.Grid_price}")
+        self.Grid_price = self.Grid_price_forecast[0]  
 
-        ################################
-        # update the EV forecasting next 1 hour
-        self.next1_hour=self.ev_forecast[0]
-        self.ev_demand_label.config(text=f"EV forecast Damand \nnext 1 hour:{self.next1_hour}kW ")
+        self.grid_price_label.config(text=f"Grid Price: ¢{self.Grid_price}")
 
-        ################################
-        #update the total power
-        self.total_power=0
+        self.next1_hour = self.ev_forecast[0]
+        self.ev_demand_label.config(text=f"EV Demand \nNext Hour: {self.next1_hour} kW ")
+
+        self.total_power = 0
         for i in range(len(chargers)): 
-            # [id, current_soc, end_soc, arrival_time, departure_time, battery_capacity, charging_price, charging_power,grid_price,ev_demand]            
-            #ChargingStation.add_vehicle_battery(self,chargers[i])
-            if chargers[i][2]!=0:
-               self.total_power+=int(chargers[i][len(chargers[i])-2])
+            if chargers[i][2] != 0:
+                self.total_power += int(chargers[i][len(chargers[i])-2])
 
-        self.total_power_label.config(text=f"Total Power :{self.total_power}kW ")
+        self.total_power_label.config(text=f"Total Power: {self.total_power} kW ")
 
-        ########################
-        #update the total prices
-        self.Chargers_prices=0
+        self.Chargers_prices = 0
         for i in range(len(chargers)): 
-            # [id, current_soc, end_soc, arrival_time, departure_time, battery_capacity,  charging_power,charging_price,,grid_price,ev_demand]            
-            #ChargingStation.add_vehicle_battery(self,chargers[i])
-            if chargers[i][2]!=0:
-               self.Chargers_prices+=int(chargers[i][len(chargers[i])-1])
-        self.chargers_price_label.config(text=f"Chargers Income :${self.Chargers_prices}")  
+            if chargers[i][2] != 0:
+                self.Chargers_prices += int(chargers[i][len(chargers[i])-1])
+        self.chargers_price_label.config(text=f"Chargers Income: ${self.Chargers_prices}")  
 
-        ######################################
-        #update the profit
-        self.profit_label.config(text=f"Total profit :${self.max_power}") 
+        self.profit_label.config(text=f"Total Profit: ${self.max_power}") 
+        self.Grid_power_label.config(text=f"Grid Max Power: ${self.max_power}")         
 
-        ######################################
-        #update the maximim power        
-        # self.total_profit=backend_receice_array[]
-        self.Grid_power_label.config(text=f"Grid Max Power :${self.max_power}")         
-        #print("receive array")
         for i in range(len(chargers)): 
-            #print(chargers[i])
-            #ChargingStation.add_vehicle_battery(self,chargers[i])
-            if chargers[i][2]!=0:
-                #print() #choose the vehicle data
+            if chargers[i][2] != 0:
                 self.add_vehicle_battery(chargers[i])
             else:    
                 self.empty_slots_create(chargers[i][0])
@@ -274,8 +197,7 @@ class ChargingStation:
         
     def open_EV_form(self):
         # Open the ConfigureModelForm window
-        configure_form_window = EvForecastForm(self.root, self)    
-
+        configure_form_window = EvForecastForm(self.root, self) 
 class ChargingStationForm(tk.Toplevel):
     def __init__(self, parent, charging_station):
         super().__init__(parent)
