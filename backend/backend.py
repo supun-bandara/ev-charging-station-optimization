@@ -20,7 +20,7 @@ class chargingStation_backend():
         super(chargingStation_backend, self).__init__()
         self.number_of_chargers = 10
         self.max_charging_power = np.array([100, 100, 100, 100, 25, 25, 25, 25, 25, 25])/4
-        self.max_grid_demand = 400 #previous name = self.maximum_demand # values should be got from outside
+        self.max_grid_demand = 90 #previous name = self.maximum_demand # values should be got from outside
 
     def add_EV(self, charger_id, current_soc, end_soc, current_time, departure_time, battery_capacity):
         res_parking_time = chargingStation_backend.time_diff(current_time,departure_time)
