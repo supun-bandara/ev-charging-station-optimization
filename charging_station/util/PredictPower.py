@@ -25,10 +25,10 @@ def predict_power(self, current_time):
     else: # when the maximum available grid demand is exceeded
         dc_count = np.sum(self.chargers[:4])
         if dc_count == 4:
-            first_four = np.array([20,20,20,20]) # np.random.randint(15, 17, size=4)
+            first_four = np.array([80, 80, 80, 80]) # np.random.randint(15, 17, size=4)
             dc_charging_power = np.concatenate((first_four, np.zeros(6))) * self.chargers
         elif dc_count in [1,2,3]:
-            first_four = np.array([25,25,25,25]) # np.random.randint(22, 25, size=4)
+            first_four = np.array([100, 100, 100, 100]) # np.random.randint(22, 25, size=4)
             dc_charging_power = np.concatenate((first_four, np.zeros(6))) * self.chargers
 
         ac_max_grid_demand = self.max_grid_demand - np.sum(dc_charging_power)
