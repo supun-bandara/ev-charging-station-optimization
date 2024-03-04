@@ -32,9 +32,11 @@ def predict_power(self, current_time):
             dc_charging_power = np.concatenate((first_four, np.zeros(6))) * self.chargers
 
         ac_max_grid_demand = self.max_grid_demand - np.sum(dc_charging_power)
-        min_charging_rates = self.res_charging_demand[4:] / self.res_parking_time[4:]
+        min_charging_rates = np.where(self.res_parking_time[4:] != 0, np.divide(self.res_charging_demand[4:], self.res_parking_time[4:]), 0)
+        np.where(self.res_parking_time[4:] != 0, np.divide(self.res_charging_demand[4:], self.res_parking_time[4:]), 0)
         sum_of_min_charging_rates = np.sum(min_charging_rates)
         ac_charging_power = ac_max_grid_demand * min_charging_rates / sum_of_min_charging_rates
+        ac_charging_power = np.minimum(ac_charging_power, 25)
         charging_power = np.concatenate((dc_charging_power[:4], ac_charging_power))
         print("predict_power - charging_power: ", charging_power)
         return charging_power

@@ -58,7 +58,7 @@ class ChargingStation:
         self.time_label.grid(row=0, column=0, ipadx=10)
 
         # Create a label to display the grid price
-        self.grid_price_label = ttk.Label(self.frame, text=f"Grid Unit Price: ¢{self.Grid_price}", font= self.font,
+        self.grid_price_label = ttk.Label(self.frame, text=f"Grid Unit Price: {self.Grid_price} cents/kWh", font= self.font,
                                      style="Custom.TLabel", foreground="blue")
         self.grid_price_label.grid(row=0, column=1, ipadx=20)
         
@@ -198,7 +198,7 @@ class ChargingStation:
         #update the grid price 
         self.Grid_price=self.Grid_price_forecast[0]  #select the first one  
     
-        self.grid_price_label.config(text=f"Grid Unit Price:¢{self.Grid_price}")
+        self.grid_price_label.config(text=f"Grid Unit Price: {self.Grid_price} cents/kWh")
 
         ################################
         # update the EV forecasting next 1 hour
@@ -212,9 +212,9 @@ class ChargingStation:
             # [id, current_soc, end_soc, arrival_time, departure_time, battery_capacity, charging_price, charging_power,grid_price,ev_demand]            
             #ChargingStation.add_vehicle_battery(self,chargers[i])
             if chargers[i][2]!=0:
-               self.total_power+=int(chargers[i][len(chargers[i])-2])
+               self.total_power+=(chargers[i][len(chargers[i])-2])
 
-        self.total_power_label.config(text=f"Total Power :{self.total_power}kW ")
+        self.total_power_label.config(text=f"Total Power :{round(self.total_power, 2)}kW ")
 
         ########################
         #update the total prices
