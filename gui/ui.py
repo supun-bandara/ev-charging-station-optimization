@@ -90,7 +90,7 @@ class ChargingStation:
         # Create a button to change the current time
         self.change_time_button = ttk.Button(self.frame, text="Change Time", command=self.time_pass,
                                              style="Custom.TButton")
-        self.change_time_button.grid(row=2, column=0,pady=20,sticky=tk.W)
+        self.change_time_button.grid(row=2, column=0,pady=10,sticky=tk.W)
 
         # Create a button to for configure the charging station
         self.configure_button = ttk.Button(self.frame, text="Configure", compound=tk.LEFT, command=self.open_configure_form,style="Custom.TButton")
@@ -102,12 +102,12 @@ class ChargingStation:
      
         # Create a button to add the vehicle
         self.add_button = ttk.Button(self.frame, text="Add Vehicle", command=self.open_form,style="Custom.TButton")
-        self.add_button.grid(row=3, column=0,sticky=tk.W)
+        self.add_button.grid(row=2, column=3,sticky=tk.W)
 
         # Create a button to run the function every minute
         self.run_every_minute_button = ttk.Button(self.frame, text="Run Every Minute", command=self.run_every_minute,
                                                   style="Custom.TButton")
-        self.run_every_minute_button.grid(row=2, column=1, pady=20, sticky=tk.W)
+        self.run_every_minute_button.grid(row=2, column=1, pady=10, sticky=tk.W)
 
         #initialize_chargers
         for i in range(10):
