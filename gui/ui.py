@@ -233,7 +233,7 @@ class ChargingStation:
         ######################################
         #update the maximim power        
         # self.total_profit=backend_receice_array[]
-        self.Grid_power_label.config(text=f"Grid Max Power :${self.max_power}")         
+        self.Grid_power_label.config(text=f"Grid Max Power :{self.max_power} kW")         
         #print("receive array")
         for i in range(len(chargers)): 
             #print(chargers[i])
