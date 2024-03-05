@@ -1,3 +1,5 @@
+# use this code to train the model
+
 import sys
 import os
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -20,7 +22,7 @@ if not os.path.exists(logdir):
 env = ChargingEnv()
 env.reset()
 
-model = PPO('MlpPolicy', env, verbose=1, tensorboard_log=logdir)
+model = PPO('MlpPolicy', env, verbose=1, tensorboard_log=logdir, n_steps=64000)
 
 TIMESTEPS = 20000
 iters = 0

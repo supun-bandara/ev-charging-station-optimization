@@ -52,7 +52,7 @@ def remove_EV(self):
 ################ calculate residual parking time, residual charging demand and update current state of charge ################
 def process(self):
     self.res_parking_time = self.res_parking_time - 1
-    self.res_charging_demand = np.clip(self.res_charging_demand - self.charging_power/4, 0, None)
+    self.res_charging_demand = np.clip(self.res_charging_demand - self.charging_power, 0, None)
     np.seterr(divide='ignore', invalid='ignore')
     self.current_soc = np.where(self.battery_capacity != 0, (self.end_soc - (np.divide(self.res_charging_demand, self.battery_capacity))*100), 0)
     self.current_soc = np.clip(self.current_soc, 0, 100)

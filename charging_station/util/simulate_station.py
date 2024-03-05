@@ -1,3 +1,5 @@
+# contains states transition functions (add EVs, remove EVs)
+
 import numpy as np
 
 def simulate_station(self):

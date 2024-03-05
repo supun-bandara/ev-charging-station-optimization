@@ -1,3 +1,5 @@
+# for creating the python package
+
 from gymnasium import register #gym.envs.registration
 
 register(

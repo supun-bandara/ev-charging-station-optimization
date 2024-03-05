@@ -1,3 +1,6 @@
+# contains actions function that is called in the step function of the environment class
+# contains the reward functions
+
 import numpy as np
 import time
 from charging_station.util.predict_price import predict_price
