@@ -186,13 +186,15 @@ class ChargingStation:
         ####################################
         backend_receice_array = chargingStation_backend.next_time(chargingStation_backend(),self.time,chargers)
         ###################################
-        chargers=backend_receice_array[:len(backend_receice_array)-2]  #choose the charger details
+        chargers=backend_receice_array[:len(backend_receice_array)-3]  #choose the charger details
         ####################################
-        self.Grid_price_forecast=backend_receice_array[len(backend_receice_array)-2] #choose the grid price forecasting details
+        self.Grid_price_forecast=backend_receice_array[len(backend_receice_array)-3] #choose the grid price forecasting details
         #print("Grid_price_forecast details",self.Grid_price_forecast)
         ####################################
-        self.ev_forecast= backend_receice_array[len(backend_receice_array)-1]  #choose the ev forecasting details
+        self.ev_forecast= backend_receice_array[len(backend_receice_array)-2]  #choose the ev forecasting details
         #print("EV forcasting details",self.ev_forecast)
+
+        self.max_available_grid_demand = backend_receice_array[len(backend_receice_array)-1]  #choose the max available grid demand
 
         ###############################
         #update the grid price 
@@ -233,7 +235,7 @@ class ChargingStation:
         ######################################
         #update the maximim power        
         # self.total_profit=backend_receice_array[]
-        self.Grid_power_label.config(text=f"Grid Max Power :{self.max_power} kW")         
+        self.Grid_power_label.config(text=f"Grid Max Power :{self.max_available_grid_demand} kW")         
         #print("receive array")
         for i in range(len(chargers)): 
             #print(chargers[i])
