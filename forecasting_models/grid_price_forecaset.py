@@ -14,7 +14,7 @@ def grid_price_forecast(ref):
     model_price = 'forecasting_models/trained_model_price.pkl'
     loaded_model = pickle.load(open(model_price, 'rb'))
 
-    for i in range(13):
+    for i in range(24): # 13
         future_timestamp = current_timestamp + timedelta(minutes=i*15)
         year = future_timestamp.year
         month = future_timestamp.month
