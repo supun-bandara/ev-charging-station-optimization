@@ -1,7 +1,9 @@
+from datetime import datetime, timedelta
 import tkinter as tk
 from tkinter import ttk, simpledialog, messagebox
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import pandas as pd
 
 class EvForecastForm(tk.Toplevel):
     def __init__(self, parent, charging_station):
@@ -14,13 +16,22 @@ class EvForecastForm(tk.Toplevel):
 
         # Create a figure and axis for the plot
         fig, ax = plt.subplots()
-        hours = list(range(1, 25))
-
+        
+        cur_time = pd.to_datetime(self.charging_station.time+":00")
+        print(cur_time)
+        hour = []
+        for i in range(12):
+            # hour.append(cur_time + pd.to_timedelta(hours = i))
+            new_time = ((cur_time) + timedelta(hours=i)).time()
+            hour.append(new_time.strftime('%H')+":00")  
+        print(hour)
         # Plot the forecast data
-        ax.plot(hours, forecast_detail, marker='o', linestyle='-')
+        ax.plot(hour, forecast_detail, marker='o', linestyle='-')
         ax.set_xlabel('Hours')
         ax.set_ylabel('Energy Demand (kWh)')
         ax.set_title('EV Forecast for the Next 24 Hours')
+
+        plt.xticks(rotation=45) 
 
         # Embed the plot in the Tkinter window
         canvas = FigureCanvasTkAgg(fig, master=self)
