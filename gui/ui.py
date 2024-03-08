@@ -350,7 +350,7 @@ class ChargingStationForm(tk.Toplevel):
         self.time_entry.insert(0, "12:00")  # Departure Time: 12:00
         self.capacity_entry.delete(0, tk.END)
         self.capacity_entry.insert(0, "100")  # Battery Capacity: 100
-        
+
     def add_vehicle(self):
         try:
             # Retrieve user input and create a new ChargingStation instance
@@ -425,8 +425,8 @@ if __name__ == "__main__":
     root.tk_setPalette(background='#ececec', foreground='#000000', activeBackground='#b5e2ff', activeForeground='#000000')
 
     style = ttk.Style()
-    style.configure("Custom.TFrame", background="#CBC3E3") #D\3\D\3\D\3
-    style.configure("Custom.TLabel", background="#CBC3E3") #\C\B\C\3\E\3
+    style.configure("Custom.TFrame", background="#D3D3D3") #D\3\D\3\D\3
+    style.configure("Custom.TLabel", background="#D3D3D3") #\C\B\C\3\E\3
     style.configure("Custom.TButton", background="#b5e2ff",font=("Hack Regular", 10))
 
     # Set the window size
@@ -441,6 +441,6 @@ if __name__ == "__main__":
     # charging_station_power = sum(powers)
     charging_station = ChargingStation(root, style)
     
-    root.configure(background='#CBC3E3')
+    root.configure(background='#D3D3D3')
     
     root.mainloop()
