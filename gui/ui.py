@@ -63,29 +63,24 @@ class ChargingStation:
         self.grid_price_label.grid(row=0, column=1, ipadx=20)
         
         # Create a label to display the charging station price
-        self.chargers_price_label = ttk.Label(self.frame, text=f"Chargers Income: ${self.Chargers_prices}", font= self.font,
+        self.chargers_price_label = ttk.Label(self.frame, text=f"Chargers Revenue: ${self.Chargers_prices}", font= self.font,
                                      style="Custom.TLabel", foreground="blue")
         self.chargers_price_label.grid(row=0, column=2, ipadx=10)
-        
-        # Create a label to display the charging station price
-        self.profit_label = ttk.Label(self.frame, text=f"Total profit: ${self.total_profit}", font= self.font,
-                                     style="Custom.TLabel", foreground="blue")
-        self.profit_label.grid(row=0, column=3, ipadx=10)
 
         # Create a label to display the charging station power
-        self.total_power_label = ttk.Label(self.frame, text=f"Total Power: {self.total_power}W", font= self.font,
+        self.total_power_label = ttk.Label(self.frame, text=f"Total Charging Power: {self.total_power}W", font= self.font,
                                      style="Custom.TLabel", foreground="green")
-        self.total_power_label.grid(row=0, column=4, ipadx=85)
+        self.total_power_label.grid(row=0, column=3, ipadx=10)
 
         # Create a label to display the charging station power
-        self.Grid_power_label = ttk.Label(self.frame, text=f"Grid Max Power: {self.max_power}W", font= self.font,
+        self.Grid_power_label = ttk.Label(self.frame, text=f"Maximum Available \nGrid Power: {self.max_power}W", font= self.font,
                                      style="Custom.TLabel", foreground="red")
-        self.Grid_power_label.grid(row=2, column=4, ipadx=85)
+        self.Grid_power_label.grid(row=0, column=4, ipadx=10)
         
         # Create a label to display the charging station power
-        self.ev_demand_label = ttk.Label(self.frame, text=f"EV forecast Damand \nnext 1 hour:{self.ev_forcast} ", font= self.font,
+        self.ev_demand_label = ttk.Label(self.frame, text=f"EV forecast Damand \nNext 1 hour:{self.ev_forcast} ", font= self.font,
                                      style="Custom.TLabel", foreground="black")
-        self.ev_demand_label.grid(row=0, column=5, ipadx=50)
+        self.ev_demand_label.grid(row=0, column=5, ipadx=20)
         
         # Create a button to change the current time
         self.change_time_button = ttk.Button(self.frame, text="Change Time", command=self.time_pass,
@@ -97,7 +92,7 @@ class ChargingStation:
         self.configure_button.grid(row=2, column=2, sticky=tk.W,ipadx=10)
         
         # Create a button to for open EV forecasting model
-        self.configure_button = ttk.Button(self.frame, text="EV forecast", command=self.open_EV_form,style="Custom.TButton")
+        self.configure_button = ttk.Button(self.frame, text="EV Demand forecast", command=self.open_EV_form,style="Custom.TButton")
         self.configure_button.grid(row=2, column=5, sticky=tk.W)
      
         # Create a button to add the vehicle
@@ -105,7 +100,7 @@ class ChargingStation:
         self.add_button.grid(row=2, column=3,sticky=tk.W)
 
         # Create a button to run the function every minute
-        self.run_every_minute_button = ttk.Button(self.frame, text="Run Every Minute", command=self.run_every_minute,
+        self.run_every_minute_button = ttk.Button(self.frame, text="Auto Run", command=self.run_every_minute,
                                                   style="Custom.TButton")
         self.run_every_minute_button.grid(row=2, column=1, pady=10, sticky=tk.W)
 
@@ -229,13 +224,9 @@ class ChargingStation:
         self.chargers_price_label.config(text=f"Chargers Income :${self.Chargers_prices}")  
 
         ######################################
-        #update the profit
-        self.profit_label.config(text=f"Total profit :${self.max_power}") 
-
-        ######################################
         #update the maximim power        
         # self.total_profit=backend_receice_array[]
-        self.Grid_power_label.config(text=f"Grid Max Power :{self.max_available_grid_demand} kW")         
+        self.Grid_power_label.config(text=f"Maximum Available \nGrid Power :{self.max_available_grid_demand} kW")         
         #print("receive array")
         for i in range(len(chargers)): 
             #print(chargers[i])
@@ -331,10 +322,10 @@ class ChargingStationForm(tk.Toplevel):
         self.error_label.grid(row=7, column=1,pady=10, padx=25,sticky=tk.W)
 
         # Create a button to submit the form
-        self.Battery_Capacity_button=ttk.Button(self, text="Add Vehicle", command=self.add_vehicle,style="Custom.TButton")
+        self.Battery_Capacity_button=ttk.Button(self, text="Add", command=self.add_vehicle,style="Custom.TButton")
         self.Battery_Capacity_button.grid(row=9, column=0,pady=10, padx=50)
 
-        self.Battery_Capacity_button=ttk.Button(self, text="Remove Vehicle", command=self.remove_vehicle,style="Custom.TButton")
+        self.Battery_Capacity_button=ttk.Button(self, text="Cancel", command=self.remove_vehicle,style="Custom.TButton")
         self.Battery_Capacity_button.grid(row=9, column=1,pady=10, padx=50)
 
         self.predicted_price_label = ttk.Label(self, text=f"Predicted Charging Price: ", style="bag.TLabel")
@@ -354,7 +345,7 @@ class ChargingStationForm(tk.Toplevel):
         self.soc_entry.delete(0, tk.END)
         self.soc_entry.insert(0, "10")  # Current SOC: 10
         self.rsoc_entry.delete(0, tk.END)
-        self.rsoc_entry.insert(0, "90")  # Require SOC: 90
+        self.rsoc_entry.insert(0, "90")  # Require SOC: 90  
         self.time_entry.delete(0, tk.END)
         self.time_entry.insert(0, "12:00")  # Departure Time: 12:00
         self.capacity_entry.delete(0, tk.END)
