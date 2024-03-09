@@ -44,6 +44,7 @@ class chargingStation_backend():
         
         convert_array(self, current_time, array)
         self.charging_power = predict_power(self, current_time)
+        self.total_power = np.sum(self.charging_power)
         process(self)
         remove_EV(self)
         return convert_back(self, current_time)

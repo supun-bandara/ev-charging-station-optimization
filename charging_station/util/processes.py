@@ -74,7 +74,10 @@ def convert_back(self, current_time):
     ev_demand_forecast_result = ev_demand_forecast(current_time).tolist()   #convert numpy array to normal list
     ev_demand_forecast_rounded = [round(value, 3) for value in ev_demand_forecast_result]
     lst.append(ev_demand_forecast_rounded)
+    
+    lst.append(self.max_grid_demand)
 
-    #print("convert_back - lst: ", lst)
+    print("convert_back - lst: ", lst)
+    print()
     return lst
 

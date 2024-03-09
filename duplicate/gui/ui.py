@@ -423,8 +423,8 @@ if __name__ == "__main__":
     root.tk_setPalette(background='#ececec', foreground='#000000', activeBackground='#b5e2ff', activeForeground='#000000')
 
     style = ttk.Style()
-    style.configure("Custom.TFrame", background="#CBC3E3")
-    style.configure("Custom.TLabel", background="#CBC3E3")
+    style.configure("Custom.TFrame", background="#D3D3D3")
+    style.configure("Custom.TLabel", background="#D3D3D3")
     style.configure("Custom.TButton", background="#b5e2ff",font=("Hack Regular", 10))
 
     # Set the window size
@@ -439,6 +439,6 @@ if __name__ == "__main__":
     # charging_station_power = sum(powers)
     charging_station = ChargingStation(root, style)
     
-    root.configure(background='#CBC3E3')
+    root.configure(background='#D3D3D3')
     
     root.mainloop()
