@@ -24,6 +24,7 @@ def ev_demand_forecast(ref):
 
     future_df_int = future_df.astype(int)
     predicted_charging_power = loaded_model.predict(future_df_int)
+    predicted_charging_power = predicted_charging_power*9
     return  np.round(predicted_charging_power, decimals=2)
 
 def plot():
