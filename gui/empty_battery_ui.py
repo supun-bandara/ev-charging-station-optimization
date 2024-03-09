@@ -8,7 +8,7 @@ class emptyBatteryUI:
         self.root = root
 
         # Create a frame for each battery
-        style.configure("battery.TFrame", background="#CBC3E3")
+        style.configure("battery.TFrame", background="#D3D3D3")
         
         self.frame = ttk.Frame(root, padding="10", style="battery.TFrame")
         self.frame.grid(row=row, column=col, padx=5, pady=5)
@@ -17,12 +17,12 @@ class emptyBatteryUI:
         self.charger_id=charger_id        
 
                # Change the background color of the root window
-        self.root.configure(background='#CBC3E3')
+        self.root.configure(background='#D3D3D3')
 
         self.font=("Hack Regular", 10,)
         
         # Draw the battery outline
-        self.canvas = tk.Canvas(self.frame, width=200, height=200, bg="#CBC3E3", highlightthickness=2)
+        self.canvas = tk.Canvas(self.frame, width=200, height=200, bg="#D3D3D3", highlightthickness=2)
         
         if self.charger_id<=3:            
             emptyBatteryUI.dc_charger_icon(self)
@@ -43,10 +43,10 @@ class emptyBatteryUI:
             self.canvas.create_image(x_center, y_center, image=self.charger_icon)
             self.canvas.pack()
             
-            self.label_charge = ttk.Label(self.frame, text=f"        ", background="#CBC3E3",
+            self.label_charge = ttk.Label(self.frame, text=f"        ", background="#D3D3D3",
                                         foreground="black", font=self.font)
             self.label_charge.pack()
-            self.label_charge = ttk.Label(self.frame, text=f"DC Charger: {self.charger_id}", background="#CBC3E3",
+            self.label_charge = ttk.Label(self.frame, text=f"DC Fast Charger: {self.charger_id}", background="#D3D3D3",
                                         foreground="black", font=self.font)
             self.label_charge.pack()
                       
@@ -60,9 +60,9 @@ class emptyBatteryUI:
             self.canvas.create_image(x_center, y_center, image=self.charger_icon) 
             self.canvas.pack()
             
-            self.label_charge = ttk.Label(self.frame, text=f"        ", background="#CBC3E3",
+            self.label_charge = ttk.Label(self.frame, text=f"        ", background="#D3D3D3",
                                         foreground="black", font=self.font)
             self.label_charge.pack()
-            self.label_charge = ttk.Label(self.frame, text=f"AC Charger: {self.charger_id}", background="#CBC3E3",
+            self.label_charge = ttk.Label(self.frame, text=f"Level 2 Charger: {self.charger_id}", background="#D3D3D3",
                                         foreground="black", font=self.font)
             self.label_charge.pack()        

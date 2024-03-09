@@ -77,6 +77,7 @@ def convert_back(self, current_time):
     
     lst.append(self.max_grid_demand)
 
-    #print("convert_back - lst: ", lst)
+    print("convert_back - lst: ", lst)
+    print()
     return lst
 

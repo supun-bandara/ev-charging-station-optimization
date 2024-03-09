@@ -38,5 +38,5 @@ def predict_power(self, current_time):
         ac_charging_power = ac_max_grid_demand * min_charging_rates / sum_of_min_charging_rates
         ac_charging_power = np.minimum(ac_charging_power, 25)
         charging_power = np.concatenate((dc_charging_power[:4], ac_charging_power))
-        print("predict_power - charging_power: ", charging_power)
+        #print("predict_power - charging_power: ", charging_power)
         return charging_power

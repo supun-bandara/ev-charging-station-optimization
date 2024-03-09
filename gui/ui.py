@@ -332,11 +332,20 @@ class ChargingStationForm(tk.Toplevel):
 
         # Create a button to submit the form
         self.Battery_Capacity_button=ttk.Button(self, text="Add Vehicle", command=self.add_vehicle,style="Custom.TButton")
-        self.Battery_Capacity_button.grid(row=7, column=0,pady=10, padx=50)
+        self.Battery_Capacity_button.grid(row=9, column=0,pady=10, padx=50)
+
+        self.Battery_Capacity_button=ttk.Button(self, text="Remove Vehicle", command=self.remove_vehicle,style="Custom.TButton")
+        self.Battery_Capacity_button.grid(row=9, column=1,pady=10, padx=50)
+
+        self.predicted_price_label = ttk.Label(self, text=f"Predicted Charging Price: ", style="bag.TLabel")
+        self.predicted_price_label.grid(row=8, column=0, columnspan=2, pady=10)
 
         # Create a button to choose sample data
         self.sample_data_button = ttk.Button(self, text="Choose Sample Data", command=self.choose_sample_data)
-        self.sample_data_button.grid(row=8, column=0, columnspan=2, pady=10)
+        self.sample_data_button.grid(row=10, column=0, columnspan=2, pady=10)
+
+        self.predict_price_button = ttk.Button(self, text="Predict Price", command=self.predict_price)
+        self.predict_price_button.grid(row=7, column=1, pady=10)
 
     def choose_sample_data(self):
         # Here you can implement logic to choose which sample data to fill in the form
@@ -351,7 +360,7 @@ class ChargingStationForm(tk.Toplevel):
         self.capacity_entry.delete(0, tk.END)
         self.capacity_entry.insert(0, "100")  # Battery Capacity: 100
 
-    def add_vehicle(self):
+    def predict_price(self):
         try:
             # Retrieve user input and create a new ChargingStation instance
             #charger_id = int(self.Charger_id_.get())
@@ -381,7 +390,7 @@ class ChargingStationForm(tk.Toplevel):
             if charger_type == "DC":
                 for idx in range(4):
                     if self.charging_station.index[idx] == 0:  # Charger is available
-                        charger_id = idx
+                        self.temp_charger_id = idx
                         self.charging_station.index[idx] = 1  # Mark charger as occupied
                         break
                 else:
@@ -389,32 +398,39 @@ class ChargingStationForm(tk.Toplevel):
             else:  # AC charger
                 for idx in range(4, 10):
                     if self.charging_station.index[idx] == 0:  # Charger is available
-                        charger_id = idx
+                        self.temp_charger_id = idx
                         self.charging_station.index[idx] = 1  # Mark charger as occupied
                         break
                 else:
                     raise ValueError("No available AC charger found")
 
-            vehicle_data = [charger_id,current_soc,required_soc,arrival_time,departure_time,battery_capacity ]
-            charging_price=chargingStation_backend.add_EV(chargingStation_backend(),*vehicle_data)
-            
-            charging_power=0
-            vehicle_data.append(charging_power)
-            vehicle_data.append(charging_price)           
-            #print(vehicle_data)
-            
-            chargers[charger_id]=vehicle_data
-            #print(chargers)
+            self.temp_vehicle_data = [self.temp_charger_id,current_soc,required_soc,arrival_time,departure_time,battery_capacity ]
+            self.charging_price=chargingStation_backend.add_EV(chargingStation_backend(),*self.temp_vehicle_data)
 
-            # Add the vehicle's battery to the charging station
-            self.charging_station.add_vehicle_battery(vehicle_data)
-         
-            # Close the form window
-            self.destroy()
+            self.predicted_price_label = ttk.Label(self, text=f"Predicted Charging Price: {self.charging_price}", style="bag.TLabel")
+            self.predicted_price_label.grid(row=8, column=0, columnspan=2, pady=10)
 
         except ValueError as e:
             # Handle the validation error
             self.error_label.config(text=str(e))
+
+    def add_vehicle(self):
+        charging_power=0
+        self.temp_vehicle_data.append(charging_power)
+        self.temp_vehicle_data.append(self.charging_price)           
+        #print(vehicle_data)
+        
+        chargers[self.temp_charger_id]=self.temp_vehicle_data
+        #print(chargers)
+
+        # Add the vehicle's battery to the charging station
+        self.charging_station.add_vehicle_battery(self.temp_vehicle_data)
+        
+        # Close the form window
+        self.destroy()
+    
+    def remove_vehicle(self):
+        self.destroy()
 
 
 if __name__ == "__main__":
