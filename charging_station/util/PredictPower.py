@@ -24,12 +24,37 @@ def predict_power(self, current_time):
     
     else: # when the maximum available grid demand is exceeded
         dc_count = np.sum(self.chargers[:4])
-        if dc_count == 4:
-            first_four = np.random.randint(77, 80, size=4) # np.array([80, 80, 80, 80]) # 
-            dc_charging_power = np.concatenate((first_four, np.zeros(6))) * self.chargers
-        elif dc_count in [1,2,3]:
-            first_four = np.random.randint(95, 100, size=4) # np.array([100, 100, 100, 100]) # 
-            dc_charging_power = np.concatenate((first_four, np.zeros(6))) * self.chargers
+        if self.max_grid_demand >= 400:
+                first_four = np.random.randint(95, 100, size=4)
+                dc_charging_power = np.concatenate((first_four, np.zeros(6))) * self.chargers
+        elif 300 < self.max_grid_demand < 400:
+            if dc_count == 4:
+                first_four = np.random.randint(77, 80, size=4) # np.array([80, 80, 80, 80]) # 
+                dc_charging_power = np.concatenate((first_four, np.zeros(6))) * self.chargers
+            elif dc_count in [1,2,3]:
+                first_four = np.random.randint(95, 100, size=4) # np.array([100, 100, 100, 100]) # 
+                dc_charging_power = np.concatenate((first_four, np.zeros(6))) * self.chargers
+        elif 200 < self.max_grid_demand <= 300:
+            if dc_count == 4:
+                first_four = np.random.randint(45, 50, size=4)
+                dc_charging_power = np.concatenate((first_four, np.zeros(6))) * self.chargers
+            elif dc_count in [1,2,3]:
+                first_four = np.random.randint(57, 60, size=4)
+                dc_charging_power = np.concatenate((first_four, np.zeros(6))) * self.chargers
+        elif 100 < self.max_grid_demand <= 200:
+            if dc_count == 4:
+                first_four = np.random.randint(20, 25, size=4)
+                dc_charging_power = np.concatenate((first_four, np.zeros(6))) * self.chargers
+            elif dc_count in [1,2,3]:
+                first_four = np.random.randint(30, 33, size=4)
+                dc_charging_power = np.concatenate((first_four, np.zeros(6))) * self.chargers
+        else:
+            if dc_count == 4:
+                first_four = np.random.randint(10, 15, size=4)
+                dc_charging_power = np.concatenate((first_four, np.zeros(6))) * self.chargers
+            elif dc_count in [1,2,3]:
+                first_four = np.random.randint(15, 20, size=4)
+                dc_charging_power = np.concatenate((first_four, np.zeros(6))) * self.chargers
 
         ac_max_grid_demand = self.max_grid_demand - np.sum(dc_charging_power)
         min_charging_rates = np.where(self.res_parking_time[4:] != 0, np.divide(self.res_charging_demand[4:], self.res_parking_time[4:]), 0)
