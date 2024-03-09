@@ -8,7 +8,7 @@ class BatteryUI:
     def __init__(self, root, style, charger_id, row, col,current_soc,required_soc,arrival_time,departure_time,battery_capacity,charging_power,charging_price):
         self.root = root
         # Create a frame for each battery
-        style.configure("battery.TFrame", background="#D3D3D3")
+        style.configure("battery.TFrame", background="#bddef5")
         self.frame = ttk.Frame(root, padding="10", style="battery.TFrame")
         self.frame.grid(row=row, column=col, padx=5, pady=5)
 
@@ -20,9 +20,9 @@ class BatteryUI:
         self.battery_capacity = battery_capacity
         self.chariging_power = charging_power
         self.charging_price = charging_price
-        self.root.configure(background='#D3D3D3') # Change the background color of the root window
+        self.root.configure(background='#bddef5') # Change the background color of the root window
         font=("Hack Regular", 10)
-        self.canvas = tk.Canvas(self.frame, width=200, height=80, bg="#D3D3D3", highlightthickness=0) # Draw the battery outline
+        self.canvas = tk.Canvas(self.frame, width=200, height=80, bg="#bddef5", highlightthickness=0) # Draw the battery outline
         self.canvas.pack()
 
         self.canvas.create_rectangle(20, 20, 180, 80, outline="white", width=5) # Draw the battery border
@@ -30,45 +30,45 @@ class BatteryUI:
 
         self.battery_fill = self.canvas.create_rectangle(25, 25, 25 + self.charge_level, 75, outline="", fill="green") # Draw the battery fill based on the initial charge level
 
-        self.label_charger_id = ttk.Label(self.frame, text=f"Charger id: {self.charger_id}", background="#D3D3D3", foreground="black", font=font) #Battery id
+        self.label_charger_id = ttk.Label(self.frame, text=f"Charger id: {self.charger_id}", background="#bddef5", foreground="black", font=font) #Battery id
         self.label_charger_id.pack()
         
         # Create a label to display the charge level
-        self.label_charge = ttk.Label(self.frame, text=f"Charge Level: {current_soc}%", background="#D3D3D3", foreground="black", font=font)
+        self.label_charge = ttk.Label(self.frame, text=f"Charge Level: {current_soc}%", background="#bddef5", foreground="black", font=font)
         self.label_charge.pack()
         
         #Required charge level
-        self.label_required_soc = ttk.Label(self.frame, text=f"Required Charge Level: {self.required_soc}%", background="#D3D3D3",
+        self.label_required_soc = ttk.Label(self.frame, text=f"Required Charge Level: {self.required_soc}%", background="#bddef5",
                                       foreground="black", font=font)
         self.label_required_soc.pack()
              
         # Create a label to display the charge level
-        self.label_charge = ttk.Label(self.frame, text=f"Start_Charge Level: {current_soc}%", background="#D3D3D3",
+        self.label_charge = ttk.Label(self.frame, text=f"Start_Charge Level: {current_soc}%", background="#bddef5",
                                       foreground="black", font=font)
         self.label_charge.pack()
 
         # Create a label to display the arrival_time
-        self.label_arrival_time = ttk.Label(self.frame, text=f"Arrival time: {self.arrival_time}", background="#D3D3D3",
+        self.label_arrival_time = ttk.Label(self.frame, text=f"Arrival time: {self.arrival_time}", background="#bddef5",
                                       foreground="black", font=font)
         self.label_arrival_time.pack()
         
         # Create a label to display the arrival_time
-        self.label_arrival_time = ttk.Label(self.frame, text=f"Departure time: {self.departure_time}", background="#D3D3D3",
+        self.label_arrival_time = ttk.Label(self.frame, text=f"Departure time: {self.departure_time}", background="#bddef5",
                                       foreground="black", font=font)
         self.label_arrival_time.pack()
 
         # Create a label to display the battery capacity 
-        self.label_power = ttk.Label(self.frame, text=f"Battery Capacity: {self.battery_capacity}kWh", background="#D3D3D3",
+        self.label_power = ttk.Label(self.frame, text=f"Battery Capacity: {self.battery_capacity}kWh", background="#bddef5",
                                      foreground="green", font=font)
         self.label_power.pack()
         
         # Create a label to display the charging power 
-        self.label_power = ttk.Label(self.frame, text=f"Charging Power: {self.chariging_power}W", background="#D3D3D3",
+        self.label_power = ttk.Label(self.frame, text=f"Charging Power: {self.chariging_power}W", background="#bddef5",
                                      foreground="green", font=font)
         self.label_power.pack()
 
         # Create a label to display the charging price
-        self.label_power = ttk.Label(self.frame, text=f"Charging price: ${self.charging_price}", background="#D3D3D3",
+        self.label_power = ttk.Label(self.frame, text=f"Charging price: ${self.charging_price}", background="#bddef5",
                                      foreground="blue", font=font)
         self.label_power.pack()
 

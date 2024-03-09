@@ -273,9 +273,9 @@ class ChargingStationForm(tk.Toplevel):
     def __init__(self, parent, charging_station):
         super().__init__(parent)
         
-        self.configure(bg='#D3D3D3') #1fd655
-        style.configure("bag.TLabel", background="#D3D3D3") #1fd655
-        style.configure("bag.TCheckbutton", background="#D3D3D3",padding=(20,10)) #1fd655
+        self.configure(bg='#bddef5') #1fd655
+        style.configure("bag.TLabel", background="#bddef5") #1fd655
+        style.configure("bag.TCheckbutton", background="#bddef5",padding=(20,10)) #1fd655
         
         self.title("Add Vehicle")
         self.geometry("500x400")
@@ -432,8 +432,8 @@ if __name__ == "__main__":
     root.tk_setPalette(background='#ececec', foreground='#000000', activeBackground='#b5e2ff', activeForeground='#000000')
 
     style = ttk.Style()
-    style.configure("Custom.TFrame", background="#D3D3D3") #D\3\D\3\D\3
-    style.configure("Custom.TLabel", background="#D3D3D3") #\C\B\C\3\E\3
+    style.configure("Custom.TFrame", background="#bddef5") #D\3\D\3\D\3
+    style.configure("Custom.TLabel", background="#bddef5") #\C\B\C\3\E\3
     style.configure("Custom.TButton", background="#b5e2ff",font=("Hack Regular", 10))
 
     # Set the window size
@@ -448,6 +448,6 @@ if __name__ == "__main__":
     # charging_station_power = sum(powers)
     charging_station = ChargingStation(root, style)
     
-    root.configure(background='#D3D3D3')
+    root.configure(background='#bddef5')
     
     root.mainloop()
