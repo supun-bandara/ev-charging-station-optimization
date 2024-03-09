@@ -68,7 +68,7 @@ class BatteryUI:
         self.label_power.pack()
 
         # Create a label to display the charging price
-        self.label_power = ttk.Label(self.frame, text=f"Charging price: ${self.charging_price}", background="#D3D3D3",
+        self.label_power = ttk.Label(self.frame, text=f"Per Unit Charging Price: {self.charging_price} $/kWh", background="#D3D3D3",
                                      foreground="blue", font=font)
         self.label_power.pack()
 

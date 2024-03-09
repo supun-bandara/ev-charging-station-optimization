@@ -398,7 +398,7 @@ class ChargingStationForm(tk.Toplevel):
             self.temp_vehicle_data = [self.temp_charger_id,current_soc,required_soc,arrival_time,departure_time,battery_capacity ]
             self.charging_price=chargingStation_backend.add_EV(chargingStation_backend(),*self.temp_vehicle_data)
 
-            self.predicted_price_label = ttk.Label(self, text=f"Predicted Per Unit Charging Price: {self.charging_price}", style="bag.TLabel")
+            self.predicted_price_label = ttk.Label(self, text=f"Predicted Per Unit Charging Price: {self.charging_price} $/kWh", style="bag.TLabel")
             self.predicted_price_label.grid(row=8, column=0, columnspan=2, pady=10)
 
         except ValueError as e:
