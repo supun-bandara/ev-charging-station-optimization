@@ -328,14 +328,14 @@ class ChargingStationForm(tk.Toplevel):
         self.Battery_Capacity_button=ttk.Button(self, text="Cancel", command=self.remove_vehicle,style="Custom.TButton")
         self.Battery_Capacity_button.grid(row=9, column=1,pady=10, padx=50)
 
-        self.predicted_price_label = ttk.Label(self, text=f"Predicted Charging Price: ", style="bag.TLabel")
+        self.predicted_price_label = ttk.Label(self, text=f"Predicted Per Unit Charging Price: ", style="bag.TLabel")
         self.predicted_price_label.grid(row=8, column=0, columnspan=2, pady=10)
 
         # Create a button to choose sample data
         self.sample_data_button = ttk.Button(self, text="Choose Sample Data", command=self.choose_sample_data)
         self.sample_data_button.grid(row=10, column=0, columnspan=2, pady=10)
 
-        self.predict_price_button = ttk.Button(self, text="Predict Price", command=self.predict_price)
+        self.predict_price_button = ttk.Button(self, text="Predict Charging Price", command=self.predict_price)
         self.predict_price_button.grid(row=7, column=1, pady=10)
 
     def choose_sample_data(self):
@@ -398,7 +398,7 @@ class ChargingStationForm(tk.Toplevel):
             self.temp_vehicle_data = [self.temp_charger_id,current_soc,required_soc,arrival_time,departure_time,battery_capacity ]
             self.charging_price=chargingStation_backend.add_EV(chargingStation_backend(),*self.temp_vehicle_data)
 
-            self.predicted_price_label = ttk.Label(self, text=f"Predicted Charging Price: {self.charging_price}", style="bag.TLabel")
+            self.predicted_price_label = ttk.Label(self, text=f"Predicted Per Unit Charging Price: {self.charging_price}", style="bag.TLabel")
             self.predicted_price_label.grid(row=8, column=0, columnspan=2, pady=10)
 
         except ValueError as e:
