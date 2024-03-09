@@ -10,35 +10,51 @@ import random
 
 plot.plotly.mapbox_plot.set_mapbox_token('pk.eyJ1IjoiamF5YXNoYW4iLCJhIjoiY2xxbTVlcHBnMnkyMjJsbzQyaWhkcm55ciJ9.NqC5gmPq2oQYGhR7jkISjQ')
 
-class pandapower():
-    def __init__(self):
+class Pandapower():
+    def __init__(self,current_time):
         self.net,_= mv_oberrhein(separation_by_sub=True)
-
-        #self.uniform_loads=[0.3 for x in range(68)]
+        self.min_voltage_drop_=0.98
         
-        self.random_loads_value= [random.uniform(0, 0.2) for _ in range(68)]
-        self.initialize_network()
-
-
-        self.random_loads()
+        self.initialize_network()   
+        self.create_load_charge_S(78 ,0,0)  #load initialize charging station
+        self.uniform_loads=0.2055
+            
+        #self.random_loads()
+        #charging station
+        
+         #charging station bus
         #self.uniform_load()      # if we wanna run a uniform loads
-        self.run_calculation(self.net)
-        self.open_network(self.net)
+
+        # self.maximum_power(78)
+        # self.charging_station_power(78 ,self.station_power,0)
+        # self.open_network(self.net)
     
-        # bus 48 - charging station
+        # bus 48(index 78) - charging station / line 183 -line 161
         # bus 38 - highh voltage bus
         #self.maximum_power(self.net,0)
         
-        #self.show_buses(self.net)   #show bus details
-        #self.show_lines(self.net)   #show line details
-        #self.show_transformer(self.net)   #show transfomer details
+        # self.show_buses(self.net)   #show bus details
+        # self.show_lines(self.net)   #show line details
+        # self.show_transformer(self.net)   #show transfomer details
+        #self.show_loads(self.net)
         #self.net.load.at[1, 'p_mw'] = 10.0
+             
+    def time_loads_random(self,current_time):
+        if current_time<"6:00":   
+            self.random_loads_value= [random.uniform(0, 0.01) for _ in range(68)]
+            
+        elif current_time>"6:00" & current_time< "8:00":
+            self.random_loads_value= [random.uniform(0, 0.05) for _ in range(68)] 
+            
+        elif current_time>"6:00" & current_time< "8:00":
+            self.random_loads_value= [random.uniform(0, 0.01) for _ in range(68)] 
         
-        ##print(len(self.net.bus))
-        ##print(len(self.net.load)) 
+    def time_loads_uniform(self,current_time):
         
-        ##self.show_loads(self.net)
-        ##self.show_buses(self.net)
+        if current_time<"6:00":   
+            self.uniform_loads=0.3 
+        elif  current_time>"6:00":
+            self.uniform_loads=0.6     
         
     def initialize_network(self):  
         #remove unwanted loads
@@ -64,11 +80,17 @@ class pandapower():
             pp.create_load(self.net, bus=self.net.bus.query(f'name == "{bus_no_load}"').index[0], p_mw=0.2, q_mvar=0.1, name=bus_no_load)
         
                
-    def maximum_power(self,net,bus):
-        pp.opf_task(net)
-        max_power = net.res_bus.at[bus, 'p_kw_max']
-        return max_power
-    
+    def maximum_power(self,bus_index):
+        print(self.net.res_bus.loc[bus_index, 'vm_pu'])
+
+        while(self.net.res_bus.loc[bus_index, 'vm_pu']>self.min_voltage_drop_):
+            print(self.net.res_bus.loc[bus_index, 'vm_pu'])  
+            self.net.load.at[151, 'p_mw'] += 0.1
+            
+            self.run_calculation()  
+        print("max  power_mw",self.net.load.at[151, 'p_mw'])                                             
+        return  self.net.load.at[151, 'p_mw']  
+
     def show_loads(self,net):
         print(net.load)                  #show load details
                   
@@ -81,32 +103,34 @@ class pandapower():
     def show_transformer(self,net):      #show transfomer details     
         print(net.trafo)
         
-    def create_load(self,net,bus,active_power,reactive_power):
-        pp.create_load(net,bus, p_mw=active_power, q_kvar=reactive_power, name="Load 1")
+    def create_load_charge_S(self,bus,active_power,reactive_power):
+        pp.create_load(self.net,bus, p_mw=active_power/1000, q_kvar=reactive_power, name="Charging Station")
 
-    def uniform_load(self,net):
-        print("")
 
     def create_transfomer(net,bus,hv_side_bus,lv_side_bus,hv_side_V,lv_side_V,max_loading):
         pp.create_transformer(net,bus, hv_bus=hv_side_bus, lv_bus=lv_side_bus,
                               max_loading_percent=max_loading,
                               vn_hv_kv=hv_side_V, vn_lv_kv=lv_side_V )
-    def run_calculation(self,net):
-        pp.runpp(net)
+    def run_calculation(self):
+        pp.runpp(self.net)
         
-    def open_network(self,net):
-        plot.plotly.pf_res_plotly(net, on_map=True, projection='epsg:31467', map_style='satellite')
+    def open_network(self):
+        plot.plotly.pf_res_plotly(self.net, on_map=True, projection='epsg:31467', map_style='satellite')
     
     def uniform_load(self):                            #assigning all loads are equals
         #print("index",self.net.load.index)
         
         for i in range(len(self.net.load.index)):
-            self.net.load.at[self.net.load.index[i], 'p_mw'] = 0.3   #assigning active power
-            self.net.load.at[self.net.load.index[i], 'q_mvar'] = 0.2  #assigning reactive power
+            self.net.load.at[self.net.load.index[i], 'p_mw'] = self.uniform_loads   #assigning active power
+            self.net.load.at[self.net.load.index[i], 'q_mvar'] = self.uniform_loads #assigning reactive power
             
     def random_loads(self):
          for i in range(len(self.net.load.index)):
             self.net.load.at[self.net.load.index[i], 'p_mw'] = self.random_loads_value[i]  #assigning active power
             self.net.load.at[self.net.load.index[i], 'q_mvar'] = self.random_loads_value[i] #assigning reactive power
- 
-pandapower()
+    
+    def limitation_element(self):
+         print(pp.contingency.get_element_limits(self.net))    
+            
+    def charging_station_power(self,bus,active_power,reactive_power):
+        self.net.load.at[151, 'p_mw'] = active_power/1000

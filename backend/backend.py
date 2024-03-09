@@ -12,6 +12,7 @@ sys.path.append(os.path.dirname(SCRIPT_DIR))
 from charging_station.util.PredictPower import predict_power
 from charging_station.util.PredictPrice import predict_price
 from backend.convert_array import convert_array
+from panda_power.panda import Pandapower
 from charging_station.util.processes import remove_EV, process, convert_back
 import numpy as np
 
@@ -43,8 +44,25 @@ class chargingStation_backend():
         self.charging_power = np.zeros(self.number_of_chargers)
         
         convert_array(self, current_time, array)
+        
+        #pandapower
+        grid_power=Pandapower(current_time)  #create pandapower object
+        grid_power.uniform_load()                                       #create all the loads are same
+        grid_power.run_calculation()
+        self.max_grid_demand=float(grid_power.maximum_power(78))*1000  #get maximum power of charging station and covert in to kilowatts
+    
         self.charging_power = predict_power(self, current_time)
-        self.total_power = np.sum(self.charging_power)
+        self.total_power = float(np.sum(self.charging_power))
+
+        #grid_power.initialize_network()    #remove unwanted loads and create a pure network
+        
+        print(self.max_grid_demand)    
+        print("total power",self.total_power) 
+        grid_power.charging_station_power(78 ,self.total_power,2)      # bus 48(index 78) - charging station / line 183 -line 161
+        grid_power.run_calculation()
+        
+        grid_power.open_network()
+
         process(self)
         remove_EV(self)
         return convert_back(self, current_time)
@@ -78,9 +96,4 @@ class chargingStation_backend():
         _15_min_slots=int((time2_min-time1_min)/15)
               
         #print("15 min slots",_15_min_slots)
-        return _15_min_slots      
-
-
-obj = chargingStation_backend()
-#print(obj.add_EV(0, 10, 20, 30, 40))
-obj.next_time("12:50", [[0, 0, 0, "00:00", "00:00", 0, 0, 0], [1, 20, 30, "12:10", "12:50", 40, 100, 1], [2, 0, 0, "00:00", "00:00", 0, 0, 0], [3, 20, 30, "12:10", "12:50", 40, 100, 1], [4, 20, 30, "12:10", "12:50", 40, 100, 1]])
+        return _15_min_slots
