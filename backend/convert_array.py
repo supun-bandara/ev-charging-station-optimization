@@ -7,18 +7,21 @@ sys.path.append(os.path.dirname(SCRIPT_DIR))
 def convert_array(self, current_time, array): # convert data from gui to backend
     for sub_array in array:
         charger_id = sub_array[0]
-        current_soc = sub_array[1]
-        end_soc = sub_array[2]
-        arrival_time=sub_array[3]
-        departure_time = sub_array[4]
-        battery_capacity = sub_array[5]
-        charging_power = sub_array[6]
-        charging_price = sub_array[7]
+        start_soc = sub_array[1]
+        current_soc = sub_array[2]
+        end_soc = sub_array[3]
+        arrival_time=sub_array[4]
+        departure_time = sub_array[5]
+        battery_capacity = sub_array[6]
+        charging_power = sub_array[7]
+        charging_price = sub_array[8]
+        
         if end_soc !=0:    
             self.chargers[charger_id] = 1
             self.res_parking_time[charger_id] = time_diff(departure_time,current_time)
             self.res_charging_demand[charger_id] = battery_capacity * (end_soc - current_soc) / 100
             self.battery_capacity[charger_id] = battery_capacity
+            self.start_soc[charger_id] = start_soc
             self.current_soc[charger_id] = current_soc
             self.end_soc[charger_id] = end_soc
             self.arrival_time[charger_id] = arrival_time

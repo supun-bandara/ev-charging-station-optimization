@@ -5,7 +5,7 @@ from tkinter import ttk, simpledialog, messagebox
 
 class BatteryUI:
     
-    def __init__(self, root, style, charger_id, row, col,current_soc,required_soc,arrival_time,departure_time,battery_capacity,charging_power,charging_price):
+    def __init__(self, root, style, charger_id, row, col,initial_soc,current_soc,required_soc,arrival_time,departure_time,battery_capacity,charging_power,charging_price):
         self.root = root
         # Create a frame for each battery
         style.configure("battery.TFrame", background="#bddef5")
@@ -16,7 +16,7 @@ class BatteryUI:
         self.charge_level = (current_soc / 100) * 150 # Set initial charge level (between 0 and 100)//map to 100 with filling the rectangle
         self.required_soc = required_soc
         self.arrival_time = arrival_time
-        self. departure_time = departure_time
+        self.departure_time = departure_time
         self.battery_capacity = battery_capacity
         self.chariging_power = charging_power
         self.charging_price = charging_price
@@ -43,7 +43,7 @@ class BatteryUI:
         self.label_required_soc.pack()
              
         # Create a label to display the charge level
-        self.label_charge = ttk.Label(self.frame, text=f"Start Charge Level: {current_soc}%", background="#bddef5",
+        self.label_charge = ttk.Label(self.frame, text=f"Start Charge Level: {initial_soc}%", background="#bddef5",
                                       foreground="black", font=font)
         self.label_charge.pack()
 

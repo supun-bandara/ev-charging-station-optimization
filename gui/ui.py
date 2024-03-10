@@ -21,7 +21,7 @@ from PIL import Image, ImageTk
 chargers=[]
 for i in range(10):
     raw_chargers=[]
-    for j in range(8):
+    for j in range(9):
          raw_chargers.append(int(0))
     chargers.append(raw_chargers)    
 
@@ -159,11 +159,11 @@ class ChargingStation:
         # Create an empty BatteryUI instance with initial data 
                                        
         if charger_id<5:
-            empty_battery_ui = emptyBatteryUI(self.root, self.style, charger_id, 3,charger_id, 0, 0, 0,0, 0,0,0)
+            empty_battery_ui = emptyBatteryUI(self.root, self.style, charger_id, 3,charger_id, 0, 0, 0,0, 0,0,0,0)
             return empty_battery_ui
         
         elif charger_id>=5:   
-            empty_battery_ui = emptyBatteryUI(self.root, self.style, charger_id, 4,charger_id-5, 0, 0, 0,0, 0,0,0)
+            empty_battery_ui = emptyBatteryUI(self.root, self.style, charger_id, 4,charger_id-5, 0, 0, 0,0, 0,0,0,0)
             return empty_battery_ui
   
     def open_form(self):
@@ -395,7 +395,7 @@ class ChargingStationForm(tk.Toplevel):
                 else:
                     raise ValueError("No available AC charger found")
 
-            self.temp_vehicle_data = [self.temp_charger_id,current_soc,required_soc,arrival_time,departure_time,battery_capacity ]
+            self.temp_vehicle_data = [self.temp_charger_id, current_soc, current_soc,required_soc,arrival_time,departure_time,battery_capacity ]
             self.charging_price=chargingStation_backend.add_EV(chargingStation_backend(),*self.temp_vehicle_data)
 
             self.predicted_price_label = ttk.Label(self, text=f"Predicted Per Unit Charging Price: {self.charging_price} $/kWh", style="bag.TLabel")

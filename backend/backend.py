@@ -23,7 +23,7 @@ class chargingStation_backend():
         self.max_charging_power = np.array([100, 100, 100, 100, 25, 25, 25, 25, 25, 25])
         self.max_grid_demand = 360 #previous name = self.maximum_demand # values should be got from outside
 
-    def add_EV(self, charger_id, current_soc, end_soc, current_time, departure_time, battery_capacity):
+    def add_EV(self, charger_id, start_soc,current_soc, end_soc, current_time, departure_time, battery_capacity):
         res_parking_time = chargingStation_backend.time_diff(current_time,departure_time)
         res_charging_demand = battery_capacity * (end_soc - current_soc) / 100
         charging_price = predict_price(self, charger_id, current_time, res_parking_time, res_charging_demand)
@@ -35,7 +35,7 @@ class chargingStation_backend():
         self.res_parking_time = np.zeros(self.number_of_chargers)
         self.res_charging_demand = np.zeros(self.number_of_chargers)
         self.battery_capacity = np.zeros(self.number_of_chargers)
-
+        self.start_soc = np.zeros(self.number_of_chargers)
         self.current_soc= np.zeros(self.number_of_chargers)
         self.end_soc = np.zeros(self.number_of_chargers)
         self.arrival_time =np.array(['00:00','00:00','00:00','00:00','00:00','00:00','00:00','00:00','00:00','00:00'], dtype='str')
@@ -47,10 +47,13 @@ class chargingStation_backend():
         
         #pandapower
         grid_power=Pandapower(current_time)  #create pandapower object
+        
+        grid_power.time_loads_uniform(current_time)
         grid_power.uniform_load()                                       #create all the loads are same
+
         grid_power.run_calculation()
         self.max_grid_demand=float(grid_power.maximum_power(78))*1000  #get maximum power of charging station and covert in to kilowatts
-    
+
         self.charging_power = predict_power(self, current_time)
         self.total_power = float(np.sum(self.charging_power))
 
@@ -60,8 +63,8 @@ class chargingStation_backend():
         print("total power",self.total_power) 
         grid_power.charging_station_power(78 ,self.total_power,2)      # bus 48(index 78) - charging station / line 183 -line 161
         grid_power.run_calculation()
-        
-        grid_power.open_network()
+
+        #grid_power.open_network()
 
         process(self)
         remove_EV(self)

@@ -17,8 +17,7 @@ class Pandapower():
         
         self.initialize_network()   
         self.create_load_charge_S(78 ,0,0)  #load initialize charging station
-        self.uniform_loads=0.2055
-            
+
         #self.random_loads()
         #charging station
         
@@ -33,10 +32,10 @@ class Pandapower():
         # bus 38 - highh voltage bus
         #self.maximum_power(self.net,0)
         
-        # self.show_buses(self.net)   #show bus details
-        # self.show_lines(self.net)   #show line details
-        # self.show_transformer(self.net)   #show transfomer details
-        #self.show_loads(self.net)
+        # self.show_buses()   #show bus details
+        # self.show_lines()   #show line details
+        # self.show_transformer()   #show transfomer details
+        #self.show_loads()
         #self.net.load.at[1, 'p_mw'] = 10.0
              
     def time_loads_random(self,current_time):
@@ -51,10 +50,33 @@ class Pandapower():
         
     def time_loads_uniform(self,current_time):
         
-        if current_time<"6:00":   
-            self.uniform_loads=0.3 
-        elif  current_time>"6:00":
-            self.uniform_loads=0.6     
+        if self.time_diff(current_time,"18:00")>0:   
+            self.uniform_loads=0.2055 
+            print("normal")
+        elif  self.time_diff(current_time,"18:00")<0:
+            self.uniform_loads=0.207     
+            print("peak")
+    def time_diff(self,t1,t2):
+               
+        t1_split = t1.split(":")
+        t2_split = t2.split(":")
+        
+        # t1_split_hour_and_minutes
+        hour = int(t1_split[0])
+        minute = int(t1_split[1])
+        time1_min =hour*60+minute
+        #print("time1",time1_min)
+        
+        # t2_split_hour_and_minutes
+        hour = int(t2_split[0])
+        minute = int(t2_split[1])
+        time2_min =hour*60+minute
+        #print("time2",time2_min)
+        
+        _15_min_slots=int((time2_min-time1_min)/15)
+              
+        #print("15 min slots",_15_min_slots)
+        return _15_min_slots
         
     def initialize_network(self):  
         #remove unwanted loads
@@ -90,18 +112,20 @@ class Pandapower():
             self.run_calculation()  
         print("max  power_mw",self.net.load.at[151, 'p_mw'])                                             
         return  self.net.load.at[151, 'p_mw']  
-
-    def show_loads(self,net):
-        print(net.load)                  #show load details
+        
+   
+    
+    def show_loads(self):
+        print(self.net.load)                  #show load details
                   
-    def show_buses(self,net):            #show bus details
-        print(net.bus)
+    def show_buses(self):            #show bus details
+        print(self.net.bus)
         
-    def show_lines(self,net):            #show line details
-        print(net.line)
+    def show_lines(self):            #show line details
+        print(self.net.line)
         
-    def show_transformer(self,net):      #show transfomer details     
-        print(net.trafo)
+    def show_transformer(self):      #show transfomer details     
+        print(self.net.trafo)
         
     def create_load_charge_S(self,bus,active_power,reactive_power):
         pp.create_load(self.net,bus, p_mw=active_power/1000, q_kvar=reactive_power, name="Charging Station")

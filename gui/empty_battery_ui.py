@@ -4,7 +4,7 @@ import tkinter as tk
 from tkinter import ttk, simpledialog, messagebox
 
 class emptyBatteryUI:
-    def __init__(self, root, style, charger_id, row, col,current_soc,required_soc,arrival_time,departure_time,battery_capacity,charging_power,charging_price):
+    def __init__(self, root, style, charger_id, row, col,start_soc,current_soc,required_soc,arrival_time,departure_time,battery_capacity,charging_power,charging_price):
         self.root = root
 
         # Create a frame for each battery

@@ -63,7 +63,7 @@ def process(self):
 def convert_back(self, current_time):
     lst = []
     for i in range(len(self.chargers)):
-        lst.append([i, round(self.current_soc[i], 3), self.end_soc[i], self.arrival_time[i], self.departure_time[i], self.battery_capacity[i], round(self.charging_power[i], 3), self.charging_price[i]])
+        lst.append([i, self.start_soc[i], round(self.current_soc[i], 3), self.end_soc[i], self.arrival_time[i], self.departure_time[i], self.battery_capacity[i], round(self.charging_power[i], 3), self.charging_price[i]])
     
     # Round values in ev_demand_forecast to 3 decimal places
     grid_price_forecast_result = grid_price_forecast(current_time).tolist()  #convert numpy array to normal list
