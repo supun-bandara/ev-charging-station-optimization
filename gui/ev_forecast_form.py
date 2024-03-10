@@ -20,7 +20,7 @@ class EvForecastForm(tk.Toplevel):
         cur_time = pd.to_datetime(self.charging_station.time+":00")
         print(cur_time)
         hour = []
-        for i in range(12):
+        for i in range(24):
             # hour.append(cur_time + pd.to_timedelta(hours = i))
             new_time = ((cur_time) + timedelta(hours=i)).time()
             hour.append(new_time.strftime('%H')+":00")  

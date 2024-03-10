@@ -13,7 +13,7 @@ def ev_demand_forecast(ref):
     model_filename = 'forecasting_models/trained_model_energy.pkl'
     loaded_model = pickle.load(open(model_filename, 'rb'))
     
-    for i in range(12):
+    for i in range(24):
         future_timestamp = current_timestamp + timedelta(hours=i)
         year = future_timestamp.year
         month = future_timestamp.month
