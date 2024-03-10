@@ -63,6 +63,6 @@ class emptyBatteryUI:
             self.label_charge = ttk.Label(self.frame, text=f"        ", background="#bddef5",
                                         foreground="black", font=self.font)
             self.label_charge.pack()
-            self.label_charge = ttk.Label(self.frame, text=f"Level 2 Charger: {self.charger_id}", background="#bddef5",
+            self.label_charge = ttk.Label(self.frame, text=f"AC (Level 2) Charger: {self.charger_id}", background="#bddef5",
                                         foreground="black", font=self.font)
             self.label_charge.pack()        

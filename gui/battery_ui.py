@@ -43,7 +43,7 @@ class BatteryUI:
         self.label_required_soc.pack()
              
         # Create a label to display the charge level
-        self.label_charge = ttk.Label(self.frame, text=f"Start_Charge Level: {current_soc}%", background="#bddef5",
+        self.label_charge = ttk.Label(self.frame, text=f"Start Charge Level: {current_soc}%", background="#bddef5",
                                       foreground="black", font=font)
         self.label_charge.pack()
 
@@ -68,7 +68,7 @@ class BatteryUI:
         self.label_power.pack()
 
         # Create a label to display the charging price
-        self.label_power = ttk.Label(self.frame, text=f"Charging price: ${self.charging_price}", background="#bddef5",
+        self.label_power = ttk.Label(self.frame, text=f"Per Unit Charging price: {self.charging_price} $/kWh", background="#bddef5",
                                      foreground="blue", font=font)
         self.label_power.pack()
 
