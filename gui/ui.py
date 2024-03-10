@@ -73,7 +73,7 @@ class ChargingStation:
         self.total_power_label.grid(row=0, column=3, ipadx=10)
 
         # Create a label to display the charging station power
-        self.Grid_power_label = ttk.Label(self.frame, text=f"Maximum Available \nGrid Power: {self.max_power}W", font= self.font,
+        self.Grid_power_label = ttk.Label(self.frame, text=f"Maximum Available \nGrid Power: {self.max_power}kW", font= self.font,
                                      style="Custom.TLabel", foreground="red")
         self.Grid_power_label.grid(row=0, column=4, ipadx=10)
         
@@ -226,7 +226,7 @@ class ChargingStation:
         ######################################
         #update the maximim power        
         # self.total_profit=backend_receice_array[]
-        self.Grid_power_label.config(text=f"Maximum Available \nGrid Power :{self.max_available_grid_demand} kW")         
+        self.Grid_power_label.config(text=f"Maximum Available \nGrid Power :{round(self.max_available_grid_demand,2)} kW")         
         #print("receive array")
         for i in range(len(chargers)): 
             #print(chargers[i])

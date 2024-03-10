@@ -17,12 +17,15 @@ class Pandapower():
         
         self.initialize_network()   
         self.create_load_charge_S(78 ,0,0)  #load initialize charging station
-
+        
+            
         #self.random_loads()
         #charging station
         
          #charging station bus
         #self.uniform_load()      # if we wanna run a uniform loads
+        
+        
 
         # self.maximum_power(78)
         # self.charging_station_power(78 ,self.station_power,0)
@@ -50,12 +53,57 @@ class Pandapower():
         
     def time_loads_uniform(self,current_time):
         
-        if self.time_diff(current_time,"18:00")>0:   
-            self.uniform_loads=0.2055 
+        if (self.time_diff(current_time,"06:00")<=0) and (self.time_diff(current_time,"06:30")>0):    
+            self.uniform_loads=0.2061
+            print("morning peak")
+            
+        elif (self.time_diff(current_time,"06:30")<=0) and (self.time_diff(current_time,"06:45")>0):    
+            self.uniform_loads=0.20602
+            print("morning peak") 
+               
+        elif (self.time_diff(current_time,"06:45")<=0) and (self.time_diff(current_time,"07:00")>0):    
+            self.uniform_loads=0.2059
+            print("morning peak")  
+            
+        elif (self.time_diff(current_time,"07:00")<=0) and (self.time_diff(current_time,"07:30")>0):    
+            self.uniform_loads=0.20598
+            print("morning peak")  
+            
+        elif (self.time_diff(current_time,"07:30")<=0) and (self.time_diff(current_time,"08:00")>0):    
+            self.uniform_loads=0.2059
+            print("morning peak")  
+                    
+        elif  (self.time_diff(current_time,"08:00")<0) and (self.time_diff(current_time,"09:00")>0):
+            self.uniform_loads=0.2055    
             print("normal")
-        elif  self.time_diff(current_time,"18:00")<0:
-            self.uniform_loads=0.207     
+        elif  (self.time_diff(current_time,"09:00")<0) and (self.time_diff(current_time,"09:30")>0):
+            self.uniform_loads=0.20541  
+            print("normal")   
+        elif  (self.time_diff(current_time,"09:30")<0) and (self.time_diff(current_time,"10:00")>0):
+            self.uniform_loads=0.20532    
+            print("normal") 
+        elif  (self.time_diff(current_time,"10:00")<0) and (self.time_diff(current_time,"10:30")>0):
+            self.uniform_loads=0.20525    
+            print("normal")  
+        elif  (self.time_diff(current_time,"10:30")<0) and (self.time_diff(current_time,"11:00")>0):
+            self.uniform_loads=0.20513    
+            print("normal") 
+        elif  (self.time_diff(current_time,"11:00")<0) and (self.time_diff(current_time,"11:30")>0):
+            self.uniform_loads=0.20534    
+            print("normal") 
+        elif  (self.time_diff(current_time,"11:30")<0) and (self.time_diff(current_time,"12:00")>0):
+            self.uniform_loads=0.20538    
+            print("normal") 
+        elif  (self.time_diff(current_time,"12:00")<0) and (self.time_diff(current_time,"18:00")>0):
+            self.uniform_loads=0.20552    
+            print("normal")                     
+        elif  (self.time_diff(current_time,"18:00")<0) and (self.time_diff(current_time,"20:00")>0):
+            self.uniform_loads=0.20602    
             print("peak")
+        elif   (self.time_diff(current_time,"20:00")>0):
+            self.uniform_loads=0.2055     
+            print("night normal")    
+            
     def time_diff(self,t1,t2):
                
         t1_split = t1.split(":")
@@ -158,3 +206,4 @@ class Pandapower():
             
     def charging_station_power(self,bus,active_power,reactive_power):
         self.net.load.at[151, 'p_mw'] = active_power/1000
+ 
